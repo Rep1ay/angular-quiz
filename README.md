@@ -1,5 +1,20 @@
 # App
 
+## Weather API config (base URL + key)
+
+Don’t hardcode full URLs like:
+`https://api.weatherapi.com/v1/current.json?key=...&q=London&aqi=no`
+
+Instead, keep:
+- Base URL in `src/environments/environment*.ts` (`environment.weatherApi.baseUrl`)
+- Query building in code via `HttpParams` (see `WeatherService`)
+
+Files:
+- `src/environments/environment.ts` (production defaults)
+- `src/environments/environment.development.ts` (used only for `ng serve` / dev builds)
+
+Important: if this is a browser-only Angular app, an API key is not truly secret (it ends up downloadable by anyone using the app). For real production usage, put the key on a backend (or serverless function) and have Angular call your backend instead.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
 
 ## Development server
@@ -57,3 +72,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+API:
+https://www.weatherapi.com/api-explorer.aspx

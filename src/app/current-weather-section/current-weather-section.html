@@ -1,0 +1,8 @@
+<div class="main-section">
+  <h1>City: {{ currentWeather$$()?.location!.name }}</h1>
+  <h3>Temp C: {{ currentWeather$$()?.current!.temp_c }}</h3>
+</div>
+  <h3>RAW weather</h3>
+  <hr/>
+<p>{{ currentWeather$$() | json}}</p>
+<hr/>
