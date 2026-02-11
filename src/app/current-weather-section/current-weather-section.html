@@ -1,8 +1,10 @@
 <div class="main-section">
   <h1>City: {{ currentWeather$$()?.location!.name }}</h1>
   <h3>Temp C: {{ currentWeather$$()?.current!.temp_c }}</h3>
+  <img [src]="currentWeather$$()?.current!.condition.icon" alt="weather">
 </div>
   <h3>RAW weather</h3>
   <hr/>
 <p>{{ currentWeather$$() | json}}</p>
 <hr/>
+<app-city-input (onCityChanged)="updateCity($event)" />

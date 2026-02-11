@@ -1,16 +1,23 @@
-import { Component, inject } from '@angular/core';
-import { WeatherService } from '../weather/weather.service';
 import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CityInput } from '../city-input/city-input';
+import { WeatherService } from '../weather/weather.service';
 
 @Component({
   selector: 'app-current-weather-section',
-  imports: [JsonPipe],
+  imports: [JsonPipe, CityInput],
   templateUrl: './current-weather-section.html',
   styleUrl: './current-weather-section.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentWeatherSection {
-  public readonly currentWeather = inject(WeatherService);
+  private readonly _currentWeatherService = inject(WeatherService);
 
-  protected readonly currentWeather$$ = this.currentWeather.currentWeather$$;
+  protected readonly currentWeather$$ = this._currentWeatherService.currentWeather$$;
+
+
+  protected updateCity(city: string): void {
+    this._currentWeatherService.updateCityLocation(city);
+  }
 
 }

@@ -80,4 +80,10 @@ export class WeatherService {
       { params: httpParams }
     ).pipe(takeUntilDestroyed(this.destroyRef),tap(response => this.currentWeather$$.set(response))).subscribe();
   }
+
+  public updateCityLocation(city: string |  null): void {
+    if (!city) return;
+
+    this.params$$.set({ query: city, aqi: false });
+  }
 }

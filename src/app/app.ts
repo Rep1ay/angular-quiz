@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { CurrentWeatherSection } from './current-weather-section/current-weather-section';
+import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, CurrentWeatherSection],
+  imports: [Header, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
