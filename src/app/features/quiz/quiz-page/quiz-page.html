@@ -45,9 +45,9 @@
         </p>
       }
 
-      <details class="quiz__details">
+      <details class="quiz__details" open>
         <summary>Explanation</summary>
-        <pre class="quiz__explanation">{{ question$$()!.explanationMarkdown }}</pre>
+        <div class="quiz__explanation" [innerHTML]="explanationHtml$$()"></div>
       </details>
     </div>
   }

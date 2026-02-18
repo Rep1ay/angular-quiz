@@ -8,9 +8,18 @@
 .quiz__card {
   display: grid;
   gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
 }
 
 .quiz__meta {
+  margin: 0;
+  color: var(--muted);
+}
+
+.quiz__question {
   margin: 0;
 }
 
@@ -29,14 +38,14 @@
   padding: 8px 0;
 }
 
+.quiz__option span {
+	color: var(--fg);
+}
+
 .quiz__actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-}
-
-.quiz__actions button {
-  padding: 10px 12px;
 }
 
 .quiz__details summary {
@@ -51,6 +60,34 @@
 }
 
 .quiz__explanation {
-  margin: 0;
+  display: grid;
+  gap: 12px;
   white-space: pre-wrap;
+}
+
+.quiz__explanation-text {
+  white-space: pre-wrap;
+}
+
+.quiz__explanation code.quiz__inline-code {
+  padding: 0 4px;
+  border-radius: 4px;
+	border: 1px solid var(--border);
+	background: var(--code-bg);
+	color: var(--code-fg);
+}
+
+.quiz__code {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--code-bg);
+	color: var(--code-fg);
+  white-space: pre;
+}
+
+.quiz__code code {
+  display: block;
 }

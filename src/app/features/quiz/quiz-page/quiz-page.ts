@@ -29,6 +29,13 @@ export class QuizPage {
     return state.questions[this.questionIndex$$()] ?? null;
   });
 
+  protected readonly explanationHtml$$ = computed(() => {
+    const question = this.question$$();
+    if (!question) return '';
+
+    return renderExplanationMarkdownAsHtml(question.explanationMarkdown);
+  });
+
   protected readonly questionNumber$$ = computed(() => this.questionIndex$$() + 1);
 
   protected readonly selectedOptionId$$ = signal<string | null>(null);
@@ -95,4 +102,91 @@ export class QuizPage {
     this.selectedOptionId$$.set(null);
     this.checked$$.set(false);
   }
+}
+
+function renderExplanationMarkdownAsHtml(markdown: string): string {
+  const lines = String(markdown ?? '').split(/\r?\n/);
+  const chunks: string[] = [];
+
+  let inCodeBlock = false;
+  let codeLang = '';
+  let textLines: string[] = [];
+  let codeLines: string[] = [];
+
+  const flushText = () => {
+    if (textLines.length === 0) return;
+    const text = textLines.join('\n');
+    chunks.push(`<div class="quiz__explanation-text">${renderInlineCode(text)}</div>`);
+    textLines = [];
+  };
+
+  const flushCode = () => {
+    const code = codeLines.join('\n');
+    const langAttr = codeLang ? ` data-lang="${escapeHtml(codeLang)}"` : '';
+    chunks.push(
+      `<pre class="quiz__code"><code${langAttr}>${escapeHtml(code)}</code></pre>`
+    );
+    codeLines = [];
+    codeLang = '';
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine ?? '';
+
+    const fenceMatch = line.match(/^\s*```\s*([a-zA-Z0-9_-]+)?\s*$/);
+    if (fenceMatch) {
+      if (!inCodeBlock) {
+        flushText();
+        inCodeBlock = true;
+        codeLang = fenceMatch[1] ?? '';
+        continue;
+      }
+
+      // Closing fence.
+      inCodeBlock = false;
+      flushCode();
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeLines.push(line);
+    } else {
+      textLines.push(line);
+    }
+  }
+
+  if (inCodeBlock) {
+    // Unclosed fence: treat as plain text for safety.
+    textLines.push('```' + (codeLang ? ` ${codeLang}` : ''), ...codeLines);
+    codeLines = [];
+    codeLang = '';
+    inCodeBlock = false;
+  }
+
+  flushText();
+
+  return chunks.join('');
+}
+
+function renderInlineCode(text: string): string {
+  // Split by backticks and wrap alternating segments.
+  const parts = String(text ?? '').split('`');
+  if (parts.length === 1) return escapeHtml(text);
+
+  return parts
+    .map((part, idx) => {
+      const escaped = escapeHtml(part);
+      // Odd indices are inline code segments.
+      return idx % 2 === 1 ? `<code class="quiz__inline-code">${escaped}</code>` : escaped;
+    })
+    .join('');
+}
+
+function escapeHtml(value: string): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }

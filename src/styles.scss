@@ -1,5 +1,24 @@
 /* Global, mobile-friendly defaults */
 
+:root {
+	color-scheme: dark;
+
+	/* GitHub-dark inspired neutrals */
+	--bg: #0d1117;
+	--fg: #c9d1d9;
+	--muted: #8b949e;
+	--border: #30363d;
+	--surface: #161b22;
+	--surface-2: #0b1320;
+	--accent: #2f81f7;
+	--danger: #f85149;
+
+	--code-bg: #161b22;
+	--code-fg: #c9d1d9;
+	--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+		'Courier New', monospace;
+}
+
 *,
 *::before,
 *::after {
@@ -10,9 +29,72 @@ body {
 	margin: 0;
 	padding: 16px;
 	line-height: 1.5;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: var(--accent);
+}
+
+p {
+	color: var(--fg);
+}
+
+small,
+.muted {
+	color: var(--muted);
 }
 
 button,
 input {
 	font: inherit;
+}
+
+button {
+	appearance: none;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	background: var(--surface);
+	color: var(--fg);
+	padding: 10px 12px;
+	cursor: pointer;
+}
+
+button:hover {
+	background: var(--surface-2);
+}
+
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+input[type='radio'] {
+	accent-color: var(--accent);
+}
+
+details {
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: var(--surface);
+	padding: 10px 12px;
+}
+
+summary {
+	cursor: pointer;
+	color: var(--fg);
+}
+
+code {
+	font-family: var(--mono);
+}
+
+pre {
+	font-family: var(--mono);
+}
+
+pre code {
+	font-family: var(--mono);
 }
