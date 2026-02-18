@@ -22,12 +22,10 @@
         </label>
       </div>
 
-      @if (quizModeEnabled$$()) {
-        <div class="quiz__nav-row">
-          <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
-          <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
-        </div>
-      }
+      <div class="quiz__nav-row">
+        <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+        <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+      </div>
 
       <h2 class="quiz__question">{{ question$$()!.question }}</h2>
 
@@ -53,10 +51,12 @@
         </div>
       }
 
-      <div class="quiz__nav-row">
-        <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
-        <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
-      </div>
+      @if (quizModeEnabled$$()) {
+        <div class="quiz__nav-row">
+          <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+          <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+        </div>
+      }
 
       @if (quizModeEnabled$$() && isCorrect$$() !== null) {
         <p class="quiz__result">
