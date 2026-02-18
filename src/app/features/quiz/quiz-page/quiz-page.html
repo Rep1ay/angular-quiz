@@ -11,39 +11,54 @@
     <div class="quiz__card">
       <p class="quiz__meta">Question {{ questionNumber$$() }} of {{ totalQuestions$$() }}</p>
 
-      <div class="quiz__nav-row">
-        <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
-        <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+      <div class="quiz__mode" role="group" aria-label="Mode toggle">
+        <label class="quiz__mode-label">
+          <input
+            type="checkbox"
+            [checked]="quizModeEnabled$$()"
+            (change)="setQuizModeEnabled($any($event.target).checked)"
+          />
+          Quiz mode
+        </label>
       </div>
+
+      @if (quizModeEnabled$$()) {
+        <div class="quiz__nav-row">
+          <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+          <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+        </div>
+      }
 
       <h2 class="quiz__question">{{ question$$()!.question }}</h2>
 
-      <fieldset class="quiz__options" role="radiogroup" aria-label="Answer options">
-        @for (option of question$$()!.options; track option.id) {
-          <label class="quiz__option">
-            <input
-              type="radio"
-              name="answer"
-              [checked]="selectedOptionId$$() === option.id"
-              (change)="onSelect(option.id)"
-            />
-            <span>{{ option.label }}</span>
-          </label>
-        }
-      </fieldset>
+      @if (quizModeEnabled$$()) {
+        <fieldset class="quiz__options" role="radiogroup" aria-label="Answer options">
+          @for (option of question$$()!.options; track option.id) {
+            <label class="quiz__option">
+              <input
+                type="radio"
+                name="answer"
+                [checked]="selectedOptionId$$() === option.id"
+                (change)="onSelect(option.id)"
+              />
+              <span>{{ option.label }}</span>
+            </label>
+          }
+        </fieldset>
 
-      <div class="quiz__check-row">
-        <button type="button" (click)="checkAnswer()" [disabled]="!selectedOptionId$$()">
-          Check answer
-        </button>
-      </div>
+        <div class="quiz__check-row">
+          <button type="button" (click)="checkAnswer()" [disabled]="!selectedOptionId$$()">
+            Check answer
+          </button>
+        </div>
+      }
 
       <div class="quiz__nav-row">
         <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
         <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
       </div>
 
-      @if (isCorrect$$() !== null) {
+      @if (quizModeEnabled$$() && isCorrect$$() !== null) {
         <p class="quiz__result">
           @if (isCorrect$$()) {
             Correct.
@@ -53,7 +68,7 @@
         </p>
       }
 
-      <details class="quiz__details" open>
+      <details class="quiz__details" [open]="!quizModeEnabled$$()">
         <summary>Explanation</summary>
         <div class="quiz__explanation" [innerHTML]="explanationHtml$$()"></div>
       </details>

@@ -20,6 +20,8 @@ export class QuizPage {
 
   protected readonly questionIndex$$ = signal(0);
 
+  protected readonly quizModeEnabled$$ = signal(true);
+
   protected readonly jumpToQuestion$$ = signal('1');
 
   protected readonly totalQuestions$$ = computed(() => {
@@ -76,6 +78,11 @@ export class QuizPage {
   protected onSelect(optionId: string): void {
     this.selectedOptionId$$.set(optionId);
     this.checked$$.set(false);
+  }
+
+  protected setQuizModeEnabled(enabled: boolean): void {
+    this.quizModeEnabled$$.set(enabled);
+    this.resetAnswerState();
   }
 
   protected checkAnswer(): void {
