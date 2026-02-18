@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "quiz:generate": "node tools/quiz-md-to-json.cjs",
+    "build:gh-pages": "npm run quiz:generate && ng build --configuration production"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,19 +1,26 @@
 # App
 
-## Weather API config (base URL + key)
+## Deploy to GitHub Pages
 
-Don’t hardcode full URLs like:
-`https://api.weatherapi.com/v1/current.json?key=...&q=London&aqi=no`
+This repo includes a GitHub Actions workflow that builds and deploys the app to GitHub Pages.
 
-Instead, keep:
-- Base URL in `src/environments/environment*.ts` (`environment.weatherApi.baseUrl`)
-- Query building in code via `HttpParams` (see `WeatherService`)
+- Workflow: [/.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml)
+- Publish directory: `dist/app/browser`
 
-Files:
-- `src/environments/environment.ts` (production defaults)
-- `src/environments/environment.development.ts` (used only for `ng serve` / dev builds)
+### One-time GitHub settings
 
-Important: if this is a browser-only Angular app, an API key is not truly secret (it ends up downloadable by anyone using the app). For real production usage, put the key on a backend (or serverless function) and have Angular call your backend instead.
+In your GitHub repo:
+
+1. Go to **Settings → Pages**
+2. Under **Build and deployment**, select **Source: GitHub Actions**
+
+### How it works
+
+- On each push to `main`, the workflow runs:
+	- `npm ci`
+	- `npm run quiz:generate`
+	- `ng build --configuration production --base-href "/<repo-name>/"`
+- Then it uploads `dist/app/browser` and deploys it to Pages.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
 
@@ -73,6 +80,3 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
-
-API:
-https://www.weatherapi.com/api-explorer.aspx

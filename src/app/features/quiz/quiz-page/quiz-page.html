@@ -1,0 +1,54 @@
+<section class="quiz">
+  <h1 class="quiz__title">Angular Quiz</h1>
+
+  @let state = state$$();
+
+  @if (state.status === 'loading' || state.status === 'idle') {
+    <p>Loading questions…</p>
+  } @else if (state.status === 'error') {
+    <p>Failed to load questions: {{ state.message }}</p>
+  } @else if (question$$() !== null) {
+    <div class="quiz__card">
+      <p class="quiz__meta">Question {{ questionNumber$$() }} of {{ totalQuestions$$() }}</p>
+
+      <h2 class="quiz__question">{{ question$$()!.question }}</h2>
+
+      <fieldset class="quiz__options" role="radiogroup" aria-label="Answer options">
+        @for (option of question$$()!.options; track option.id) {
+          <label class="quiz__option">
+            <input
+              type="radio"
+              name="answer"
+              [checked]="selectedOptionId$$() === option.id"
+              (change)="onSelect(option.id)"
+            />
+            <span>{{ option.label }}</span>
+          </label>
+        }
+      </fieldset>
+
+      <div class="quiz__actions">
+        <button type="button" (click)="checkAnswer()" [disabled]="!selectedOptionId$$()">
+          Check answer
+        </button>
+        <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+        <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+      </div>
+
+      @if (isCorrect$$() !== null) {
+        <p class="quiz__result">
+          @if (isCorrect$$()) {
+            Correct.
+          } @else {
+            Incorrect. Correct answer: {{ getCorrectLabel() }}
+          }
+        </p>
+      }
+
+      <details class="quiz__details">
+        <summary>Explanation</summary>
+        <pre class="quiz__explanation">{{ question$$()!.explanationMarkdown }}</pre>
+      </details>
+    </div>
+  }
+</section>

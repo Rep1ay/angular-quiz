@@ -1,0 +1,56 @@
+.quiz {
+  display: grid;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.quiz__card {
+  display: grid;
+  gap: 12px;
+}
+
+.quiz__meta {
+  margin: 0;
+}
+
+.quiz__options {
+  display: grid;
+  gap: 8px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.quiz__option {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.quiz__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quiz__actions button {
+  padding: 10px 12px;
+}
+
+.quiz__details summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+@media (max-width: 480px) {
+  .quiz__actions button {
+    flex: 1 1 auto;
+  }
+}
+
+.quiz__explanation {
+  margin: 0;
+  white-space: pre-wrap;
+}

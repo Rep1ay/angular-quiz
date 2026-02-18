@@ -1,12 +1,7 @@
 import { Routes } from '@angular/router';
-import { App } from './app';
-import { SettingsPage } from './features/settings/settings-page/settings-page';
-import { CurrentWeatherSection } from './features/weather/current-weather-section/current-weather-section';
+import { QuizPage } from './features/quiz/quiz-page/quiz-page';
 
 export const routes: Routes = [
-  {path: '', component: CurrentWeatherSection},
-  {
-    path: 'settings', component: SettingsPage,
-    providers: []
-  }
+  { path: '', pathMatch: 'full', redirectTo: 'quiz' },
+  { path: 'quiz', component: QuizPage },
 ];
