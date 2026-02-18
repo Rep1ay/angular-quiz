@@ -41,6 +41,9 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
         run: npm run build -- --configuration production --base-href "/${REPO_NAME}/"
 
+      - name: SPA fallback for refresh
+        run: cp dist/app/browser/index.html dist/app/browser/404.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
