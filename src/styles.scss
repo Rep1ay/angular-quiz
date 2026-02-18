@@ -32,6 +32,7 @@ body {
 	background: var(--bg);
 	color: var(--fg);
 	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 a {
@@ -89,12 +90,31 @@ summary {
 
 code {
 	font-family: var(--mono);
+	color: var(--code-fg);
 }
 
 pre {
 	font-family: var(--mono);
+	color: var(--code-fg);
+	background: var(--code-bg);
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	padding: 12px;
+	overflow-x: auto;
 }
 
 pre code {
 	font-family: var(--mono);
+	background: transparent;
+	border: 0;
+	padding: 0;
+	color: inherit;
+}
+
+/* Inline code (but not code blocks) */
+:not(pre) > code {
+	background: var(--code-bg);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 1px 6px;
 }

@@ -1,3 +1,4 @@
+import { DOCUMENT, ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 
 import { QuizContentService } from '../quiz-content/quiz-content.service';
@@ -12,10 +13,14 @@ import { QuizContentService } from '../quiz-content/quiz-content.service';
 })
 export class QuizPage {
   private readonly quizContentService = inject(QuizContentService);
+  private readonly viewportScroller = inject(ViewportScroller);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly state$$ = this.quizContentService.state$$;
 
   protected readonly questionIndex$$ = signal(0);
+
+  protected readonly jumpToQuestion$$ = signal('1');
 
   protected readonly totalQuestions$$ = computed(() => {
     const state = this.state$$();
@@ -54,6 +59,14 @@ export class QuizPage {
     // Reset selection when the current question changes.
     this.question$$();
     this.resetAnswerState();
+
+    // Keep jump input in sync with the current question.
+    this.jumpToQuestion$$.set(String(this.questionIndex$$() + 1));
+
+    // On mobile, keep the new question in view after navigation.
+    if (this.isMobileViewport()) {
+      queueMicrotask(() => this.viewportScroller.scrollToPosition([0, 0]));
+    }
   });
 
   constructor() {
@@ -98,9 +111,32 @@ export class QuizPage {
     this.questionIndex$$.update((i) => i + 1);
   }
 
+  protected onJumpInput(value: string): void {
+    this.jumpToQuestion$$.set(value);
+  }
+
+  protected jump(): void {
+    const total = this.totalQuestions$$();
+    if (total === 0) return;
+
+    const raw = this.jumpToQuestion$$().trim();
+    const parsed = Number.parseInt(raw, 10);
+    if (!Number.isFinite(parsed)) return;
+
+    const clamped = Math.min(Math.max(parsed, 1), total);
+    this.questionIndex$$.set(clamped - 1);
+  }
+
   private resetAnswerState(): void {
     this.selectedOptionId$$.set(null);
     this.checked$$.set(false);
+  }
+
+  private isMobileViewport(): boolean {
+    const win = this.document.defaultView;
+    if (!win?.matchMedia) return false;
+
+    return win.matchMedia('(max-width: 600px)').matches;
   }
 }
 

@@ -11,6 +11,11 @@
     <div class="quiz__card">
       <p class="quiz__meta">Question {{ questionNumber$$() }} of {{ totalQuestions$$() }}</p>
 
+      <div class="quiz__nav-row">
+        <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+        <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+      </div>
+
       <h2 class="quiz__question">{{ question$$()!.question }}</h2>
 
       <fieldset class="quiz__options" role="radiogroup" aria-label="Answer options">
@@ -27,10 +32,13 @@
         }
       </fieldset>
 
-      <div class="quiz__actions">
+      <div class="quiz__check-row">
         <button type="button" (click)="checkAnswer()" [disabled]="!selectedOptionId$$()">
           Check answer
         </button>
+      </div>
+
+      <div class="quiz__nav-row">
         <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
         <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
       </div>
@@ -49,6 +57,26 @@
         <summary>Explanation</summary>
         <div class="quiz__explanation" [innerHTML]="explanationHtml$$()"></div>
       </details>
+
+      <div class="quiz__pagination-row">
+        <div class="quiz__jump" role="group" aria-label="Jump to question">
+          <label class="quiz__jump-label" for="jumpTo">Go to</label>
+          <input
+            id="jumpTo"
+            class="quiz__jump-input"
+            type="number"
+            inputmode="numeric"
+            [min]="1"
+            [max]="totalQuestions$$()"
+            [value]="jumpToQuestion$$()"
+            (input)="onJumpInput($any($event.target).value)"
+            (keydown.enter)="jump()"
+            aria-label="Question number"
+          />
+          <span class="quiz__jump-total" aria-hidden="true">/ {{ totalQuestions$$() }}</span>
+          <button type="button" (click)="jump()" [disabled]="totalQuestions$$() === 0">Go</button>
+        </div>
+      </div>
     </div>
   }
 </section>
