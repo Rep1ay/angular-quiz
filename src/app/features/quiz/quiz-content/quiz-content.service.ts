@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,6 +30,7 @@ type QuizContentState =
 export class QuizContentService {
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
 
   public readonly state$$ = signal<QuizContentState>({ status: 'idle' });
 
@@ -38,8 +40,10 @@ export class QuizContentService {
 
     this.state$$.set({ status: 'loading' });
 
+    const url = new URL('quiz-questions.json', this.document.baseURI).toString();
+
     this.http
-      .get<QuizQuestionsJson>('/quiz-questions.json')
+      .get<QuizQuestionsJson>(url)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
