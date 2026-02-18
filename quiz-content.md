@@ -4868,3 +4868,767 @@
      ```
 
      **[⬆ Back to Top](#table-of-contents)**
+
+  ---
+
+  ## Additional Angular Interview Questions (Imported)
+
+  284. ### Why was a client-side framework introduced?
+
+    Client-side frameworks were introduced to handle the growing complexity of modern web applications. Earlier, with plain JavaScript or jQuery, developers had to manually update the DOM, which became messy and hard to maintain as applications grew.
+
+    Frameworks like Angular and React helped by:
+
+    - Supporting Single Page Applications (SPAs) for smooth, fast user experiences without full page reloads.
+    - Providing mechanisms to keep UI and data in sync automatically (e.g., Angular two-way binding, React virtual DOM).
+    - Offering a component-based architecture so code is reusable, organized, and easier to maintain.
+    - Shipping built-in tools (routing, forms, state management patterns) that increase developer productivity.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  285. ### How does an Angular application work?
+
+    An Angular app is a Single Page Application (SPA) that runs in the browser. It bootstraps from `main.ts`, builds the UI with components and templates, uses services for shared logic, manages navigation with the router, and keeps the UI updated through data binding and change detection.
+
+    - App bootstraps from `main.ts` with the root component.
+    - Components define UI + behavior (template + class + styles).
+    - Data binding links template and component state.
+    - Directives add/remove/alter DOM behavior.
+    - Services share reusable logic via dependency injection.
+    - Router handles navigation without full reloads.
+    - Change detection updates the DOM when data changes.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  286. ### How are Angular expressions different from JavaScript expressions?
+
+    Angular expressions are written in templates (e.g., `{{ }}`) and evaluated by Angular in the context of the component. JavaScript expressions are evaluated directly by the browser’s JS engine.
+
+    | Angular Expressions | JavaScript Expressions |
+    |---|---|
+    | Used inside Angular templates (`{{ }}`, structural directives). | Used in `.js/.ts` files or `<script>` tags. |
+    | Evaluated in component context. | Evaluated in global / function scope. |
+    | No loops, assignments, or declarations. | Full language features allowed. |
+    | Auto-escaped (safer by default). | Needs manual security handling. |
+    | Designed for data binding. | No built-in data binding. |
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  287. ### What are Single Page Applications (SPA)?
+
+    Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript.
+
+    - Updates content without reloading the entire page.
+    - Faster interactions and smoother UX.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  288. ### What are templates in Angular?
+
+    A template is HTML that tells Angular how to render a component’s view. Angular evaluates the template, creates DOM nodes, and keeps them in sync with component state.
+
+    Two common ways to define templates:
+
+    - **Inline template**: `@Component({ template: '...' })`
+    - **External (linked) template**: `@Component({ templateUrl: './x.html' })`
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  289. ### What is an AOT Compiler?
+
+    The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app. This improves startup performance and catches template errors earlier compared to JIT.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  290. ### How many types of compilation Angular provides?
+
+    Angular provides two types of compilation:
+
+    - **JIT (Just-in-Time)**: compiles in the browser at runtime (faster dev iteration, slower startup).
+    - **AOT (Ahead-of-Time)**: compiles at build time (faster startup, better production performance).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  291. ### What is a component in Angular?
+
+    A component is a fundamental building block of Angular applications. It controls a portion of the UI, encapsulating template, logic, and styles into a reusable unit.
+
+    ```ts
+    import { Component, Input } from '@angular/core';
+
+    @Component({
+      selector: 'app-header',
+      templateUrl: './header.component.html',
+      styleUrls: ['./header.component.css']
+    })
+    export class HeaderComponent {
+      @Input() title!: string;
+      @Input() links!: { name: string; url: string }[];
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  292. ### Explain the purpose of @Component decorator in Angular?
+
+    `@Component` marks a class as an Angular component and provides metadata:
+
+    - Associates a template (inline or external).
+    - Associates component styles.
+    - Defines the selector (custom HTML tag).
+    - Can configure providers for DI at the component level.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  293. ### What is a module in Angular?
+
+    A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks.
+
+    ```ts
+    @NgModule({
+      declarations: [AppComponent],
+      imports: [BrowserModule],
+      providers: [],
+      bootstrap: [AppComponent]
+    })
+    export class AppModule {}
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  294. ### What is Angular CLI?
+
+    Angular CLI is a command-line tool that helps create, develop, and build Angular apps.
+
+    Common commands:
+
+    - `ng new`
+    - `ng serve`
+    - `ng generate`
+    - `ng build`
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  295. ### What is a directive in Angular?
+
+    Directives are markers on DOM elements that tell Angular to add behavior. They can modify structure (`*ngIf`, `*ngFor`) or appearance/behavior (attribute directives).
+
+    ```ts
+    import { Directive, ElementRef, Renderer2, HostListener, Input } from '@angular/core';
+
+    @Directive({ selector: '[appHoverBackground]' })
+    export class HoverBackgroundDirective {
+      @Input('appHoverBackground') hoverColor = '';
+
+      constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+      @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', this.hoverColor || 'yellow');
+      }
+
+      @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  296. ### What is a service in Angular?
+
+    A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple components through dependency injection.
+
+    ```ts
+    import { Injectable } from '@angular/core';
+    import { HttpClient } from '@angular/common/http';
+    import { BehaviorSubject, Observable } from 'rxjs';
+    import { tap } from 'rxjs/operators';
+
+    @Injectable({ providedIn: 'root' })
+    export class DataService {
+      private dataSubject = new BehaviorSubject<any>(null);
+      data$ = this.dataSubject.asObservable();
+
+      constructor(private http: HttpClient) {}
+
+      fetchData(): Observable<any> {
+        return this.http.get('https://api.example.com/data').pipe(
+       tap((data) => this.dataSubject.next(data)),
+        );
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  297. ### Explain two-way data binding in Angular?
+
+    Two-way data binding keeps the component model and the view synchronized. Changes in the model update the view and user input updates the model (commonly via `[(ngModel)]` in template-driven forms).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  298. ### What are Angular Lifecycle Hooks?
+
+    Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g., `ngOnInit`, `ngOnChanges`, `ngOnDestroy`).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  299. ### What is the difference between Angular and AngularJS?
+
+    | Angular | AngularJS |
+    |---|---|
+    | Component-based architecture | MVC (controllers + scopes) |
+    | TypeScript-first | JavaScript |
+    | AOT compilation + better performance | Runtime compilation + watchers |
+    | Modern tooling and mobile support | Limited mobile support |
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  300. ### What is Data Binding in AngularJS?
+
+    Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  301. ### Differences between one-way binding and two-way binding?
+
+    - **One-way binding**: data flows in one direction (component → view or view → component).
+    - **Two-way binding**: data flows both ways (component ↔ view), commonly via `[(ngModel)]`.
+
+    Examples:
+
+    - One-way: `{{ message }}` or `[value]="val"`
+    - Two-way: `[(ngModel)]="value"`
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  302. ### What is string interpolation in AngularJS?
+
+    String interpolation binds model data into HTML using `{{ }}`.
+
+    ```html
+    <div>{{ message }}</div>
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  303. ### How many types of Directives are available in AngularJS?
+
+    AngularJS had four directive types:
+
+    - Element
+    - Attribute
+    - CSS class
+    - Comment
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  304. ### What is factory method in AngularJS?
+
+    A factory in AngularJS is a function that returns an object (or function) and can include logic during creation. Each time a factory creates an object instance, it returns a new instance and can be injected into other components.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  305. ### What is the digest cycle in AngularJS?
+
+    The digest cycle compares current and previous scope values to detect changes and update the view. It’s triggered after events like user actions and HTTP responses, and can be initiated via `$apply()`.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  306. ### What is dependency injection in Angular?
+
+    Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes. Angular’s DI improves modularity, testability, and separation of concerns by letting the framework manage object creation and wiring.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  307. ### How do you create a service in Angular?
+
+    You can create a service using Angular CLI or manually by creating a class decorated with `@Injectable()`.
+
+    ```ts
+    import { Injectable } from '@angular/core';
+    import { HttpClient } from '@angular/common/http';
+    import { Observable } from 'rxjs';
+
+    @Injectable({ providedIn: 'root' })
+    export class DataFetchingService {
+      private apiUrl = 'https://api.example.com/data';
+
+      constructor(private http: HttpClient) {}
+
+      fetchData(): Observable<any> {
+        return this.http.get<any>(this.apiUrl);
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  308. ### What is an Angular router?
+
+    The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloads.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  309. ### What is scope in Angular?
+
+    In AngularJS, scope was the context for evaluating expressions. In modern Angular (2+), “scope” is not used; it’s replaced by component state, inputs, and template binding.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  310. ### What type of DOM is used in Angular?
+
+    Angular uses the real DOM, and updates it via change detection (updating only affected parts). For style encapsulation, Angular can emulate Shadow DOM behavior (and can also use native Shadow DOM via `ViewEncapsulation.ShadowDom`).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  311. ### In how many ways Bootstrap is embedded in Angular?
+
+    Two common ways:
+
+    1. **Using npm (recommended)**: install and reference in build configuration.
+       - `npm install bootstrap`
+    2. **Using a CDN**: add `<link>`/`<script>` tags in `index.html`.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  312. ### How can you pass data between components in Angular?
+
+    Common approaches include `@Input()`/`@Output()`, shared services, and router state.
+
+    Parent → child using `@Input()`:
+
+    ```ts
+    // child.component.ts
+    import { Component, Input } from '@angular/core';
+
+    @Component({
+      selector: 'app-child',
+      template: '<p>Data from parent: {{ childData }}</p>',
+    })
+    export class ChildComponent {
+      @Input() childData!: string;
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  313. ### Explain lazy loading in Angular?
+
+    Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performance.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  314. ### What is MVVM architecture in Angular?
+
+    MVVM (Model–View–ViewModel) separates concerns:
+
+    - **Model**: data + domain logic (often services/interfaces).
+    - **View**: UI (template + styles).
+    - **ViewModel**: binds Model to View (the component class).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  315. ### What are Angular lifecycle hooks?
+
+    Common hooks:
+
+    - `ngOnInit()`
+    - `ngOnChanges(changes: SimpleChanges)`
+    - `ngDoCheck()`
+    - `ngAfterContentInit()` / `ngAfterContentChecked()`
+    - `ngAfterViewInit()` / `ngAfterViewChecked()`
+    - `ngOnDestroy()`
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  316. ### What is a pipe in Angular?
+
+    A pipe transforms values for display in templates (e.g., `date`, `uppercase`). You can also create custom pipes.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  317. ### What is Angular Universal?
+
+    Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the server.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  318. ### How do you optimize Angular applications?
+
+    Common techniques include:
+
+    - AOT compilation
+    - Lazy loading
+    - `OnPush` change detection
+    - Tree shaking
+    - Minification and compression
+    - `trackBy` with `*ngFor`
+    - Service workers for caching/offline
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  319. ### What are Angular interceptors?
+
+    Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  320. ### Explain the purpose of NgZone in Angular?
+
+    `NgZone` helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR). When async work completes inside the Angular zone, it triggers change detection.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  321. ### What is the difference between @Input() and @Output() in Angular?
+
+    - `@Input()`: pass data from parent → child.
+    - `@Output()`: emit events from child → parent (usually via `EventEmitter`).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  322. ### How do you implement authentication in Angular?
+
+    Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors.
+
+    ```ts
+    import { Injectable } from '@angular/core';
+
+    @Injectable({ providedIn: 'root' })
+    export class AuthService {
+      isLoggedIn(): boolean {
+        return !!localStorage.getItem('userToken');
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  323. ### What are Standalone Components in Angular 19?
+
+    Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking. They can be imported directly into routes and other standalone components.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  324. ### How do you use Typed Forms?
+
+    Typed forms provide stronger type safety for `FormGroup`, `FormControl`, and `FormArray`, reducing runtime errors and improving maintainability.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  325. ### What is the purpose of the Signal API?
+
+    Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  326. ### How does the inject() function work?
+
+    `inject()` allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional contexts.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  327. ### What improvements have been made to standalone testing?
+
+    Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling better tree-shaking.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  328. ### Explain the use of Functional Components?
+
+    Functional components focus on rendering based on inputs/outputs with a more functional style. They can be simpler for small, reusable UI and can be easier to test.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  329. ### What is Ahead-of-Time (AOT) compilation in Angular?
+
+    AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and catching template errors earlier.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  330. ### What is Ivy in Angular?
+
+    Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and provides improved debugging.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  331. ### Explain the purpose of Angular Elements.
+
+    Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps.
+
+    - Reuse Angular UI across different frameworks.
+    - Interoperate with non-Angular pages.
+    - Encapsulate implementation details.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  332. ### What is a Resolver in Angular?
+
+    A resolver pre-fetches data before route activation so the component has required data when it loads.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  333. ### What is difference between Angular and React?
+
+    | Angular | React |
+    |---|---|
+    | Full framework | UI library |
+    | TypeScript-first | JS/JSX |
+    | Rich built-in tooling | More external libraries |
+    | Suitable for large, structured apps | Great for interactive UIs |
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  334. ### How are Angular expressions different from JavaScript expressions? (Advanced)
+
+    Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions are more flexible and used in application logic.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  335. ### What is the purpose of NgModule in Angular?
+
+    `NgModule` groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important in non-standalone codebases).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  336. ### What is the difference between Template-driven and Reactive Forms?
+
+    | Template-driven Forms | Reactive Forms |
+    |---|---|
+    | Uses directives in the template | Defined explicitly in code |
+    | More implicit / async-ish | More explicit / synchronous |
+    | Simpler forms | Complex forms |
+    | Often uses two-way binding | Immutable form model |
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  337. ### What are Angular Guards?
+
+    Guards control navigation / access to routes.
+
+    Common types:
+
+    - `CanActivate`
+    - `CanDeactivate`
+    - `CanLoad`
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  338. ### How do you create custom validators in Angular?
+
+    You can create custom validators by implementing `ValidatorFn` (sync) or returning an observable/promise (async) and attaching them to form controls.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  339. ### What is the purpose of Angular animations?
+
+    Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  340. ### Explain dynamic components in Angular.
+
+    Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  341. ### What is Angular Material?
+
+    Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, navigation) for building consistent UIs.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  342. ### What is Eager?
+
+    Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy loading).
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  343. ### What is the purpose of Angular's Renderer2?
+
+    `Renderer2` provides a platform-agnostic and safer way to manipulate the DOM.
+
+    - Works across different rendering environments.
+    - Helps avoid direct DOM access (better for SSR and security).
+    - Improves testability.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  344. ### What is the difference between AOT and JIT?
+
+    | AOT | JIT |
+    |---|---|
+    | Build-time compilation | Runtime compilation |
+    | Faster startup | Slower startup |
+    | Errors caught earlier | Errors may surface at runtime |
+    | Smaller bundles (no compiler) | Larger bundles (compiler included) |
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  345. ### What are the benefits of using Web Workers in Angular?
+
+    Web Workers move heavy computation off the main thread.
+
+    - Improves UI responsiveness.
+    - Enables parallel processing.
+    - Helps scalability under load.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  346. ### What is Data Binding in Angular?
+
+    Data binding synchronizes component state and template.
+
+    Four common types:
+
+    - Interpolation
+    - Property binding
+    - Event binding
+    - Two-way binding
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  347. ### What are impure pipes in Angular?
+
+    Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive. Use them carefully.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  348. ### What are pure pipes in Angular?
+
+    Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  349. ### What is PipeTransform interface in Angular?
+
+    `PipeTransform` defines the shape of a custom pipe via a `transform(...)` method that converts an input value into a displayed value.
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  350. ### Scenario: Handling Data from Multiple APIs
+
+    **Question:** We need to fetch data from multiple APIs and show them together. How to ensure data is displayed only after all responses are received?
+
+    **Answer:** Use RxJS `forkJoin` to run multiple requests concurrently and wait for all to complete.
+
+    ```ts
+    import { forkJoin } from 'rxjs';
+    import { HttpClient } from '@angular/common/http';
+
+    constructor(private http: HttpClient) {}
+
+    getData() {
+      const api1$ = this.http.get('https://api1.example.com');
+      const api2$ = this.http.get('https://api2.example.com');
+
+      forkJoin([api1$, api2$]).subscribe({
+        next: ([api1Response, api2Response]) => {
+       this.processData(api1Response, api2Response);
+        },
+        error: (err) => console.error('Error fetching data', err),
+      });
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  351. ### Scenario: Optimizing Angular Performance with Lazy Loading
+
+    **Question:** The app is slow due to many modules and components. How would you optimize it?
+
+    **Answer:** Implement lazy loading so feature modules load only when needed, reducing initial bundle size.
+
+    ```ts
+    const routes: Routes = [
+      {
+        path: 'feature',
+        loadChildren: () => import('./feature/feature.module').then((m) => m.FeatureModule),
+      },
+    ];
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  352. ### Scenario: Handling Form Validation in Reactive Forms
+
+    **Question:** Validate email format and ensure it’s unique (not already used).
+
+    **Answer:** Use built-in validators for format and an async validator for uniqueness.
+
+    ```ts
+    import { FormBuilder, Validators } from '@angular/forms';
+    import { AbstractControl } from '@angular/forms';
+    import { of } from 'rxjs';
+    import { delay, map } from 'rxjs/operators';
+
+    constructor(private fb: FormBuilder) {}
+
+    emailForm = this.fb.group({
+      email: this.fb.control('', {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: [this.uniqueEmailValidator.bind(this)],
+      }),
+    });
+
+    uniqueEmailValidator(control: AbstractControl) {
+      const emailsInUse = ['test@example.com', 'user@example.com'];
+      return of(emailsInUse.includes(String(control.value))).pipe(
+        delay(500),
+        map((isInUse) => (isInUse ? { emailInUse: true } : null)),
+      );
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  353. ### Scenario: Debugging Change Detection Issues
+
+    **Question:** A component is not updating when data changes. How do you debug/fix change detection issues?
+
+    **Answer:** If using `ChangeDetectionStrategy.OnPush`, Angular checks changes mainly on input reference changes. Avoid mutating objects in place; instead create a new reference or call `markForCheck()`.
+
+    ```ts
+    import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-sample',
+      templateUrl: './sample.component.html',
+      changeDetection: ChangeDetectionStrategy.OnPush,
+    })
+    export class SampleComponent {
+      constructor(private cd: ChangeDetectorRef) {}
+
+      updateData() {
+        this.data = { ...this.data, newValue: 'updated' };
+        this.cd.markForCheck();
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**
+
+  354. ### Scenario: Implementing Route Guards for Authentication
+
+    **Question:** How would you protect routes so only authenticated users can access them?
+
+    **Answer:** Use route guards (e.g., `CanActivate`) to check auth state and redirect unauthenticated users.
+
+    ```ts
+    import { Injectable } from '@angular/core';
+    import { CanActivate, Router } from '@angular/router';
+    import { AuthService } from './auth.service';
+
+    @Injectable({ providedIn: 'root' })
+    export class AuthGuard implements CanActivate {
+      constructor(private authService: AuthService, private router: Router) {}
+
+      canActivate(): boolean {
+        if (this.authService.isAuthenticated()) return true;
+        this.router.navigate(['/login']);
+        return false;
+      }
+    }
+    ```
+
+    **[⬆ Back to Top](#table-of-contents)**

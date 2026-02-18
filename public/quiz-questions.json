@@ -6730,7 +6730,7 @@
         },
         {
           "id": "1",
-          "label": "Angular is a TypeScript-based open-source front-end platform that makes it easy to build web, mobile and desktop applications."
+          "label": "Client-side frameworks were introduced to handle the growing complexity of modern web applications."
         },
         {
           "id": "2",
@@ -6750,11 +6750,11 @@
       "options": [
         {
           "id": "0",
-          "label": "AngularJS (version 1.x) is a JavaScript framework, whereas Angular (version 2+) is a complete rewrite of AngularJS using TypeScript, providing better performanc"
+          "label": "An Angular app is a Single Page Application (SPA) that runs in the browser."
         },
         {
           "id": "1",
-          "label": "Angular is a TypeScript-based open-source front-end platform that makes it easy to build web, mobile and desktop applications."
+          "label": "Client-side frameworks were introduced to handle the growing complexity of modern web applications."
         },
         {
           "id": "2",
@@ -6774,6 +6774,1710 @@
       "options": [
         {
           "id": "0",
+          "label": "An Angular app is a Single Page Application (SPA) that runs in the browser."
+        },
+        {
+          "id": "1",
+          "label": "Angular expressions are written in templates (e.g., {{ }}) and evaluated by Angular in the context of the component."
+        },
+        {
+          "id": "2",
+          "label": "Client-side frameworks were introduced to handle the growing complexity of modern web applications."
+        },
+        {
+          "id": "3",
+          "label": "NgRx is a framework for building reactive applications in Angular."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "NgRx is a framework for building reactive applications in Angular. It is a state management library that provides a Redux-inspired architecture for managing and centralizing application state. NgRx is built on top of RxJS and follows the principles of reactive programming.\n\n     The main components of NgRx include:\n\n     1. **Store:** A single, immutable data structure that holds the entire application state.\n     2. **Actions:** Plain objects that describe events or user interactions that can change the state.\n     3. **Reducers:** Pure functions that take the current state and an action, and return a new state.\n     4. **Effects:** Side effect handlers that listen to actions and can perform asynchronous operations like API calls.\n     5. **Selectors:** Functions used to query and derive data from the store.\n\n     NgRx helps manage complex state in large Angular applications by providing predictable state management, improved debugging capabilities, and better separation of concerns. It's particularly useful for applications with:\n     - Complex data flows\n     - Multiple components sharing the same data\n     - Need for time-travel debugging\n     - Requirements for state persistence\n\n     Here's a simple example of NgRx usage:\n\n     ```typescript\n     // Action\n     export const loadUsers = createAction('[User List] Load Users');\n\n     // Reducer\n     export const userReducer = createReducer(\n       initialState,\n       on(loadUsers, state => ({ ...state, loading: true }))\n     );\n\n     // Selector\n     export const selectUsers = (state: AppState) => state.users;\n\n     // Component\n     export class UserComponent {\n       users$ = this.store.select(selectUsers);\n       \n       constructor(private store: Store<AppState>) {}\n       \n       loadUsers() {\n         this.store.dispatch(loadUsers());\n       }\n     }\n     ```"
+    },
+    {
+      "id": "q284",
+      "question": "Why was a client-side framework introduced?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript."
+        },
+        {
+          "id": "1",
+          "label": "Angular expressions are written in templates (e.g., {{ }}) and evaluated by Angular in the context of the component."
+        },
+        {
+          "id": "2",
+          "label": "An Angular app is a Single Page Application (SPA) that runs in the browser."
+        },
+        {
+          "id": "3",
+          "label": "Client-side frameworks were introduced to handle the growing complexity of modern web applications."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Client-side frameworks were introduced to handle the growing complexity of modern web applications. Earlier, with plain JavaScript or jQuery, developers had to manually update the DOM, which became messy and hard to maintain as applications grew.\n\n    Frameworks like Angular and React helped by:\n\n    - Supporting Single Page Applications (SPAs) for smooth, fast user experiences without full page reloads.\n    - Providing mechanisms to keep UI and data in sync automatically (e.g., Angular two-way binding, React virtual DOM).\n    - Offering a component-based architecture so code is reusable, organized, and easier to maintain.\n    - Shipping built-in tools (routing, forms, state management patterns) that increase developer productivity."
+    },
+    {
+      "id": "q285",
+      "question": "How does an Angular application work?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript."
+        },
+        {
+          "id": "1",
+          "label": "A template is HTML that tells Angular how to render a component’s view."
+        },
+        {
+          "id": "2",
+          "label": "Angular expressions are written in templates (e.g., {{ }}) and evaluated by Angular in the context of the component."
+        },
+        {
+          "id": "3",
+          "label": "An Angular app is a Single Page Application (SPA) that runs in the browser."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "An Angular app is a Single Page Application (SPA) that runs in the browser. It bootstraps from `main.ts`, builds the UI with components and templates, uses services for shared logic, manages navigation with the router, and keeps the UI updated through data binding and change detection.\n\n    - App bootstraps from `main.ts` with the root component.\n    - Components define UI + behavior (template + class + styles).\n    - Data binding links template and component state.\n    - Directives add/remove/alter DOM behavior.\n    - Services share reusable logic via dependency injection.\n    - Router handles navigation without full reloads.\n    - Change detection updates the DOM when data changes."
+    },
+    {
+      "id": "q286",
+      "question": "How are Angular expressions different from JavaScript expressions?",
+      "options": [
+        {
+          "id": "0",
+          "label": "The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app."
+        },
+        {
+          "id": "1",
+          "label": "A template is HTML that tells Angular how to render a component’s view."
+        },
+        {
+          "id": "2",
+          "label": "Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript."
+        },
+        {
+          "id": "3",
+          "label": "Angular expressions are written in templates (e.g., {{ }}) and evaluated by Angular in the context of the component."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular expressions are written in templates (e.g., `{{ }}`) and evaluated by Angular in the context of the component. JavaScript expressions are evaluated directly by the browser’s JS engine.\n\n    | Angular Expressions | JavaScript Expressions |\n    |---|---|\n    | Used inside Angular templates (`{{ }}`, structural directives). | Used in `.js/.ts` files or `<script>` tags. |\n    | Evaluated in component context. | Evaluated in global / function scope. |\n    | No loops, assignments, or declarations. | Full language features allowed. |\n    | Auto-escaped (safer by default). | Needs manual security handling. |\n    | Designed for data binding. | No built-in data binding. |"
+    },
+    {
+      "id": "q287",
+      "question": "What are Single Page Applications (SPA)?",
+      "options": [
+        {
+          "id": "0",
+          "label": "The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app."
+        },
+        {
+          "id": "1",
+          "label": "Angular provides two types of compilation: JIT (Just-in-Time): compiles in the browser at runtime (faster dev iteration, slower startup)."
+        },
+        {
+          "id": "2",
+          "label": "A template is HTML that tells Angular how to render a component’s view."
+        },
+        {
+          "id": "3",
+          "label": "Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Single Page Applications (SPAs) load a single HTML page once and dynamically update content using JavaScript.\n\n    - Updates content without reloading the entire page.\n    - Faster interactions and smoother UX."
+    },
+    {
+      "id": "q288",
+      "question": "What are templates in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular provides two types of compilation: JIT (Just-in-Time): compiles in the browser at runtime (faster dev iteration, slower startup)."
+        },
+        {
+          "id": "1",
+          "label": "A component is a fundamental building block of Angular applications."
+        },
+        {
+          "id": "2",
+          "label": "The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app."
+        },
+        {
+          "id": "3",
+          "label": "A template is HTML that tells Angular how to render a component’s view."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A template is HTML that tells Angular how to render a component’s view. Angular evaluates the template, creates DOM nodes, and keeps them in sync with component state.\n\n    Two common ways to define templates:\n\n    - **Inline template**: `@Component({ template: '...' })`\n    - **External (linked) template**: `@Component({ templateUrl: './x.html' })`"
+    },
+    {
+      "id": "q289",
+      "question": "What is an AOT Compiler?",
+      "options": [
+        {
+          "id": "0",
+          "label": "@Component marks a class as an Angular component and provides metadata: Associates a template (inline or external)."
+        },
+        {
+          "id": "1",
+          "label": "A component is a fundamental building block of Angular applications."
+        },
+        {
+          "id": "2",
+          "label": "Angular provides two types of compilation: JIT (Just-in-Time): compiles in the browser at runtime (faster dev iteration, slower startup)."
+        },
+        {
+          "id": "3",
+          "label": "The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "The AOT (Ahead-of-Time) compiler compiles Angular templates and TypeScript into efficient JavaScript during the build, before the browser runs the app. This improves startup performance and catches template errors earlier compared to JIT."
+    },
+    {
+      "id": "q290",
+      "question": "How many types of compilation Angular provides?",
+      "options": [
+        {
+          "id": "0",
+          "label": "@Component marks a class as an Angular component and provides metadata: Associates a template (inline or external)."
+        },
+        {
+          "id": "1",
+          "label": "A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks."
+        },
+        {
+          "id": "2",
+          "label": "A component is a fundamental building block of Angular applications."
+        },
+        {
+          "id": "3",
+          "label": "Angular provides two types of compilation: JIT (Just-in-Time): compiles in the browser at runtime (faster dev iteration, slower startup)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular provides two types of compilation:\n\n    - **JIT (Just-in-Time)**: compiles in the browser at runtime (faster dev iteration, slower startup).\n    - **AOT (Ahead-of-Time)**: compiles at build time (faster startup, better production performance)."
+    },
+    {
+      "id": "q291",
+      "question": "What is a component in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular CLI is a command-line tool that helps create, develop, and build Angular apps."
+        },
+        {
+          "id": "1",
+          "label": "A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks."
+        },
+        {
+          "id": "2",
+          "label": "@Component marks a class as an Angular component and provides metadata: Associates a template (inline or external)."
+        },
+        {
+          "id": "3",
+          "label": "A component is a fundamental building block of Angular applications."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A component is a fundamental building block of Angular applications. It controls a portion of the UI, encapsulating template, logic, and styles into a reusable unit.\n\n    ```ts\n    import { Component, Input } from '@angular/core';\n\n    @Component({\n      selector: 'app-header',\n      templateUrl: './header.component.html',\n      styleUrls: ['./header.component.css']\n    })\n    export class HeaderComponent {\n      @Input() title!: string;\n      @Input() links!: { name: string; url: string }[];\n    }\n    ```"
+    },
+    {
+      "id": "q292",
+      "question": "Explain the purpose of @Component decorator in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular CLI is a command-line tool that helps create, develop, and build Angular apps."
+        },
+        {
+          "id": "1",
+          "label": "Directives are markers on DOM elements that tell Angular to add behavior."
+        },
+        {
+          "id": "2",
+          "label": "A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks."
+        },
+        {
+          "id": "3",
+          "label": "@Component marks a class as an Angular component and provides metadata: Associates a template (inline or external)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`@Component` marks a class as an Angular component and provides metadata:\n\n    - Associates a template (inline or external).\n    - Associates component styles.\n    - Defines the selector (custom HTML tag).\n    - Can configure providers for DI at the component level."
+    },
+    {
+      "id": "q293",
+      "question": "What is a module in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple com"
+        },
+        {
+          "id": "1",
+          "label": "Directives are markers on DOM elements that tell Angular to add behavior."
+        },
+        {
+          "id": "2",
+          "label": "Angular CLI is a command-line tool that helps create, develop, and build Angular apps."
+        },
+        {
+          "id": "3",
+          "label": "A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A module groups related building blocks (components, directives, pipes, services) and organizes features into cohesive blocks.\n\n    ```ts\n    @NgModule({\n      declarations: [AppComponent],\n      imports: [BrowserModule],\n      providers: [],\n      bootstrap: [AppComponent]\n    })\n    export class AppModule {}\n    ```"
+    },
+    {
+      "id": "q294",
+      "question": "What is Angular CLI?",
+      "options": [
+        {
+          "id": "0",
+          "label": "A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple com"
+        },
+        {
+          "id": "1",
+          "label": "Two-way data binding keeps the component model and the view synchronized."
+        },
+        {
+          "id": "2",
+          "label": "Directives are markers on DOM elements that tell Angular to add behavior."
+        },
+        {
+          "id": "3",
+          "label": "Angular CLI is a command-line tool that helps create, develop, and build Angular apps."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular CLI is a command-line tool that helps create, develop, and build Angular apps.\n\n    Common commands:\n\n    - `ng new`\n    - `ng serve`\n    - `ng generate`\n    - `ng build`"
+    },
+    {
+      "id": "q295",
+      "question": "What is a directive in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g.,"
+        },
+        {
+          "id": "1",
+          "label": "Two-way data binding keeps the component model and the view synchronized."
+        },
+        {
+          "id": "2",
+          "label": "A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple com"
+        },
+        {
+          "id": "3",
+          "label": "Directives are markers on DOM elements that tell Angular to add behavior."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Directives are markers on DOM elements that tell Angular to add behavior. They can modify structure (`*ngIf`, `*ngFor`) or appearance/behavior (attribute directives).\n\n    ```ts\n    import { Directive, ElementRef, Renderer2, HostListener, Input } from '@angular/core';\n\n    @Directive({ selector: '[appHoverBackground]' })\n    export class HoverBackgroundDirective {\n      @Input('appHoverBackground') hoverColor = '';\n\n      constructor(private el: ElementRef, private renderer: Renderer2) {}\n\n      @HostListener('mouseenter') onMouseEnter() {\n        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', this.hoverColor || 'yellow');\n      }\n\n      @HostListener('mouseleave') onMouseLeave() {\n        this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');\n      }\n    }\n    ```"
+    },
+    {
+      "id": "q296",
+      "question": "What is a service in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "| Angular | AngularJS | |---|---| | Component-based architecture | MVC (controllers + scopes) | | TypeScript-first | JavaScript | | AOT comp"
+        },
+        {
+          "id": "1",
+          "label": "Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g.,"
+        },
+        {
+          "id": "2",
+          "label": "Two-way data binding keeps the component model and the view synchronized."
+        },
+        {
+          "id": "3",
+          "label": "A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple com"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A service is a class that encapsulates reusable logic (data fetching, business logic, utilities) and is typically shared across multiple components through dependency injection.\n\n    ```ts\n    import { Injectable } from '@angular/core';\n    import { HttpClient } from '@angular/common/http';\n    import { BehaviorSubject, Observable } from 'rxjs';\n    import { tap } from 'rxjs/operators';\n\n    @Injectable({ providedIn: 'root' })\n    export class DataService {\n      private dataSubject = new BehaviorSubject<any>(null);\n      data$ = this.dataSubject.asObservable();\n\n      constructor(private http: HttpClient) {}\n\n      fetchData(): Observable<any> {\n        return this.http.get('https://api.example.com/data').pipe(\n       tap((data) => this.dataSubject.next(data)),\n        );\n      }\n    }\n    ```"
+    },
+    {
+      "id": "q297",
+      "question": "Explain two-way data binding in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g.,"
+        },
+        {
+          "id": "1",
+          "label": "Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates."
+        },
+        {
+          "id": "2",
+          "label": "| Angular | AngularJS | |---|---| | Component-based architecture | MVC (controllers + scopes) | | TypeScript-first | JavaScript | | AOT comp"
+        },
+        {
+          "id": "3",
+          "label": "Two-way data binding keeps the component model and the view synchronized."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Two-way data binding keeps the component model and the view synchronized. Changes in the model update the view and user input updates the model (commonly via `[(ngModel)]` in template-driven forms)."
+    },
+    {
+      "id": "q298",
+      "question": "What are Angular Lifecycle Hooks?",
+      "options": [
+        {
+          "id": "0",
+          "label": "One-way binding: data flows in one direction (component → view or view → component)."
+        },
+        {
+          "id": "1",
+          "label": "Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates."
+        },
+        {
+          "id": "2",
+          "label": "| Angular | AngularJS | |---|---| | Component-based architecture | MVC (controllers + scopes) | | TypeScript-first | JavaScript | | AOT comp"
+        },
+        {
+          "id": "3",
+          "label": "Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g.,"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Lifecycle hooks are methods that run at key moments in a component’s lifetime, such as initialization, input changes, and destruction (e.g., `ngOnInit`, `ngOnChanges`, `ngOnDestroy`)."
+    },
+    {
+      "id": "q299",
+      "question": "What is the difference between Angular and AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "One-way binding: data flows in one direction (component → view or view → component)."
+        },
+        {
+          "id": "1",
+          "label": "String interpolation binds model data into HTML using {{ }}."
+        },
+        {
+          "id": "2",
+          "label": "Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates."
+        },
+        {
+          "id": "3",
+          "label": "| Angular | AngularJS | |---|---| | Component-based architecture | MVC (controllers + scopes) | | TypeScript-first | JavaScript | | AOT comp"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "| Angular | AngularJS |\n    |---|---|\n    | Component-based architecture | MVC (controllers + scopes) |\n    | TypeScript-first | JavaScript |\n    | AOT compilation + better performance | Runtime compilation + watchers |\n    | Modern tooling and mobile support | Limited mobile support |"
+    },
+    {
+      "id": "q300",
+      "question": "What is Data Binding in AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "AngularJS had four directive types: Element Attribute CSS class Comment"
+        },
+        {
+          "id": "1",
+          "label": "One-way binding: data flows in one direction (component → view or view → component)."
+        },
+        {
+          "id": "2",
+          "label": "String interpolation binds model data into HTML using {{ }}."
+        },
+        {
+          "id": "3",
+          "label": "Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Data binding connects the model and the view so changes in one are reflected in the other, providing near real-time UI updates."
+    },
+    {
+      "id": "q301",
+      "question": "Differences between one-way binding and two-way binding?",
+      "options": [
+        {
+          "id": "0",
+          "label": "String interpolation binds model data into HTML using {{ }}."
+        },
+        {
+          "id": "1",
+          "label": "A factory in AngularJS is a function that returns an object (or function) and can include logic during creation."
+        },
+        {
+          "id": "2",
+          "label": "AngularJS had four directive types: Element Attribute CSS class Comment"
+        },
+        {
+          "id": "3",
+          "label": "One-way binding: data flows in one direction (component → view or view → component)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "- **One-way binding**: data flows in one direction (component → view or view → component).\n    - **Two-way binding**: data flows both ways (component ↔ view), commonly via `[(ngModel)]`.\n\n    Examples:\n\n    - One-way: `{{ message }}` or `[value]=\"val\"`\n    - Two-way: `[(ngModel)]=\"value\"`"
+    },
+    {
+      "id": "q302",
+      "question": "What is string interpolation in AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "The digest cycle compares current and previous scope values to detect changes and update the view."
+        },
+        {
+          "id": "1",
+          "label": "AngularJS had four directive types: Element Attribute CSS class Comment"
+        },
+        {
+          "id": "2",
+          "label": "A factory in AngularJS is a function that returns an object (or function) and can include logic during creation."
+        },
+        {
+          "id": "3",
+          "label": "String interpolation binds model data into HTML using {{ }}."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "String interpolation binds model data into HTML using `{{ }}`.\n\n    ```html\n    <div>{{ message }}</div>\n    ```"
+    },
+    {
+      "id": "q303",
+      "question": "How many types of Directives are available in AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "A factory in AngularJS is a function that returns an object (or function) and can include logic during creation."
+        },
+        {
+          "id": "1",
+          "label": "Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes."
+        },
+        {
+          "id": "2",
+          "label": "The digest cycle compares current and previous scope values to detect changes and update the view."
+        },
+        {
+          "id": "3",
+          "label": "AngularJS had four directive types: Element Attribute CSS class Comment"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "AngularJS had four directive types:\n\n    - Element\n    - Attribute\n    - CSS class\n    - Comment"
+    },
+    {
+      "id": "q304",
+      "question": "What is factory method in AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "You can create a service using Angular CLI or manually by creating a class decorated with @Injectable()."
+        },
+        {
+          "id": "1",
+          "label": "The digest cycle compares current and previous scope values to detect changes and update the view."
+        },
+        {
+          "id": "2",
+          "label": "Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes."
+        },
+        {
+          "id": "3",
+          "label": "A factory in AngularJS is a function that returns an object (or function) and can include logic during creation."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A factory in AngularJS is a function that returns an object (or function) and can include logic during creation. Each time a factory creates an object instance, it returns a new instance and can be injected into other components."
+    },
+    {
+      "id": "q305",
+      "question": "What is the digest cycle in AngularJS?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes."
+        },
+        {
+          "id": "1",
+          "label": "The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloa"
+        },
+        {
+          "id": "2",
+          "label": "You can create a service using Angular CLI or manually by creating a class decorated with @Injectable()."
+        },
+        {
+          "id": "3",
+          "label": "The digest cycle compares current and previous scope values to detect changes and update the view."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "The digest cycle compares current and previous scope values to detect changes and update the view. It’s triggered after events like user actions and HTTP responses, and can be initiated via `$apply()`."
+    },
+    {
+      "id": "q306",
+      "question": "What is dependency injection in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "In AngularJS, scope was the context for evaluating expressions."
+        },
+        {
+          "id": "1",
+          "label": "You can create a service using Angular CLI or manually by creating a class decorated with @Injectable()."
+        },
+        {
+          "id": "2",
+          "label": "The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloa"
+        },
+        {
+          "id": "3",
+          "label": "Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Dependency Injection (DI) is a design pattern where dependencies are provided instead of being created inside classes. Angular’s DI improves modularity, testability, and separation of concerns by letting the framework manage object creation and wiring."
+    },
+    {
+      "id": "q307",
+      "question": "How do you create a service in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloa"
+        },
+        {
+          "id": "1",
+          "label": "Angular uses the real DOM, and updates it via change detection (updating only affected parts)."
+        },
+        {
+          "id": "2",
+          "label": "In AngularJS, scope was the context for evaluating expressions."
+        },
+        {
+          "id": "3",
+          "label": "You can create a service using Angular CLI or manually by creating a class decorated with @Injectable()."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "You can create a service using Angular CLI or manually by creating a class decorated with `@Injectable()`.\n\n    ```ts\n    import { Injectable } from '@angular/core';\n    import { HttpClient } from '@angular/common/http';\n    import { Observable } from 'rxjs';\n\n    @Injectable({ providedIn: 'root' })\n    export class DataFetchingService {\n      private apiUrl = 'https://api.example.com/data';\n\n      constructor(private http: HttpClient) {}\n\n      fetchData(): Observable<any> {\n        return this.http.get<any>(this.apiUrl);\n      }\n    }\n    ```"
+    },
+    {
+      "id": "q308",
+      "question": "What is an Angular router?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Two common ways: Using npm (recommended): install and reference in build configuration."
+        },
+        {
+          "id": "1",
+          "label": "In AngularJS, scope was the context for evaluating expressions."
+        },
+        {
+          "id": "2",
+          "label": "Angular uses the real DOM, and updates it via change detection (updating only affected parts)."
+        },
+        {
+          "id": "3",
+          "label": "The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloa"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "The Angular router enables navigation between views in a SPA by mapping URL paths to components and handling updates without full page reloads."
+    },
+    {
+      "id": "q309",
+      "question": "What is scope in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular uses the real DOM, and updates it via change detection (updating only affected parts)."
+        },
+        {
+          "id": "1",
+          "label": "Common approaches include @Input()/@Output(), shared services, and router state."
+        },
+        {
+          "id": "2",
+          "label": "Two common ways: Using npm (recommended): install and reference in build configuration."
+        },
+        {
+          "id": "3",
+          "label": "In AngularJS, scope was the context for evaluating expressions."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "In AngularJS, scope was the context for evaluating expressions. In modern Angular (2+), “scope” is not used; it’s replaced by component state, inputs, and template binding."
+    },
+    {
+      "id": "q310",
+      "question": "What type of DOM is used in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performa"
+        },
+        {
+          "id": "1",
+          "label": "Two common ways: Using npm (recommended): install and reference in build configuration."
+        },
+        {
+          "id": "2",
+          "label": "Common approaches include @Input()/@Output(), shared services, and router state."
+        },
+        {
+          "id": "3",
+          "label": "Angular uses the real DOM, and updates it via change detection (updating only affected parts)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular uses the real DOM, and updates it via change detection (updating only affected parts). For style encapsulation, Angular can emulate Shadow DOM behavior (and can also use native Shadow DOM via `ViewEncapsulation.ShadowDom`)."
+    },
+    {
+      "id": "q311",
+      "question": "In how many ways Bootstrap is embedded in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common approaches include @Input()/@Output(), shared services, and router state."
+        },
+        {
+          "id": "1",
+          "label": "MVVM (Model–View–ViewModel) separates concerns: Model: data + domain logic (often services/interfaces)."
+        },
+        {
+          "id": "2",
+          "label": "Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performa"
+        },
+        {
+          "id": "3",
+          "label": "Two common ways: Using npm (recommended): install and reference in build configuration."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Two common ways:\n\n    1. **Using npm (recommended)**: install and reference in build configuration.\n       - `npm install bootstrap`\n    2. **Using a CDN**: add `<link>`/`<script>` tags in `index.html`."
+    },
+    {
+      "id": "q312",
+      "question": "How can you pass data between components in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performa"
+        },
+        {
+          "id": "1",
+          "label": "Common hooks: ngOnInit() ngOnChanges(changes: SimpleChanges) ngDoCheck() ngAfterContentInit() / ngAfterContentChecked() ngAfterViewInit() / "
+        },
+        {
+          "id": "2",
+          "label": "MVVM (Model–View–ViewModel) separates concerns: Model: data + domain logic (often services/interfaces)."
+        },
+        {
+          "id": "3",
+          "label": "Common approaches include @Input()/@Output(), shared services, and router state."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Common approaches include `@Input()`/`@Output()`, shared services, and router state.\n\n    Parent → child using `@Input()`:\n\n    ```ts\n    // child.component.ts\n    import { Component, Input } from '@angular/core';\n\n    @Component({\n      selector: 'app-child',\n      template: '<p>Data from parent: {{ childData }}</p>',\n    })\n    export class ChildComponent {\n      @Input() childData!: string;\n    }\n    ```"
+    },
+    {
+      "id": "q313",
+      "question": "Explain lazy loading in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "A pipe transforms values for display in templates (e.g., date, uppercase)."
+        },
+        {
+          "id": "1",
+          "label": "MVVM (Model–View–ViewModel) separates concerns: Model: data + domain logic (often services/interfaces)."
+        },
+        {
+          "id": "2",
+          "label": "Common hooks: ngOnInit() ngOnChanges(changes: SimpleChanges) ngDoCheck() ngAfterContentInit() / ngAfterContentChecked() ngAfterViewInit() / "
+        },
+        {
+          "id": "3",
+          "label": "Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performa"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Lazy loading loads feature areas only when needed (usually on route navigation), reducing initial bundle size and improving startup performance."
+    },
+    {
+      "id": "q314",
+      "question": "What is MVVM architecture in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common hooks: ngOnInit() ngOnChanges(changes: SimpleChanges) ngDoCheck() ngAfterContentInit() / ngAfterContentChecked() ngAfterViewInit() / "
+        },
+        {
+          "id": "1",
+          "label": "Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the s"
+        },
+        {
+          "id": "2",
+          "label": "A pipe transforms values for display in templates (e.g., date, uppercase)."
+        },
+        {
+          "id": "3",
+          "label": "MVVM (Model–View–ViewModel) separates concerns: Model: data + domain logic (often services/interfaces)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "MVVM (Model–View–ViewModel) separates concerns:\n\n    - **Model**: data + domain logic (often services/interfaces).\n    - **View**: UI (template + styles).\n    - **ViewModel**: binds Model to View (the component class)."
+    },
+    {
+      "id": "q315",
+      "question": "What are Angular lifecycle hooks?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common techniques include: AOT compilation Lazy loading OnPush change detection Tree shaking Minification and compression trackBy with *ngFo"
+        },
+        {
+          "id": "1",
+          "label": "A pipe transforms values for display in templates (e.g., date, uppercase)."
+        },
+        {
+          "id": "2",
+          "label": "Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the s"
+        },
+        {
+          "id": "3",
+          "label": "Common hooks: ngOnInit() ngOnChanges(changes: SimpleChanges) ngDoCheck() ngAfterContentInit() / ngAfterContentChecked() ngAfterViewInit() / "
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Common hooks:\n\n    - `ngOnInit()`\n    - `ngOnChanges(changes: SimpleChanges)`\n    - `ngDoCheck()`\n    - `ngAfterContentInit()` / `ngAfterContentChecked()`\n    - `ngAfterViewInit()` / `ngAfterViewChecked()`\n    - `ngOnDestroy()`"
+    },
+    {
+      "id": "q316",
+      "question": "What is a pipe in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the s"
+        },
+        {
+          "id": "1",
+          "label": "Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors)."
+        },
+        {
+          "id": "2",
+          "label": "Common techniques include: AOT compilation Lazy loading OnPush change detection Tree shaking Minification and compression trackBy with *ngFo"
+        },
+        {
+          "id": "3",
+          "label": "A pipe transforms values for display in templates (e.g., date, uppercase)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A pipe transforms values for display in templates (e.g., `date`, `uppercase`). You can also create custom pipes."
+    },
+    {
+      "id": "q317",
+      "question": "What is Angular Universal?",
+      "options": [
+        {
+          "id": "0",
+          "label": "NgZone helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR)."
+        },
+        {
+          "id": "1",
+          "label": "Common techniques include: AOT compilation Lazy loading OnPush change detection Tree shaking Minification and compression trackBy with *ngFo"
+        },
+        {
+          "id": "2",
+          "label": "Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors)."
+        },
+        {
+          "id": "3",
+          "label": "Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the s"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular Universal enables server-side rendering (SSR) for Angular apps, improving first paint performance and SEO by rendering HTML on the server."
+    },
+    {
+      "id": "q318",
+      "question": "How do you optimize Angular applications?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors)."
+        },
+        {
+          "id": "1",
+          "label": "@Input(): pass data from parent → child."
+        },
+        {
+          "id": "2",
+          "label": "NgZone helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR)."
+        },
+        {
+          "id": "3",
+          "label": "Common techniques include: AOT compilation Lazy loading OnPush change detection Tree shaking Minification and compression trackBy with *ngFo"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Common techniques include:\n\n    - AOT compilation\n    - Lazy loading\n    - `OnPush` change detection\n    - Tree shaking\n    - Minification and compression\n    - `trackBy` with `*ngFor`\n    - Service workers for caching/offline"
+    },
+    {
+      "id": "q319",
+      "question": "What are Angular interceptors?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors."
+        },
+        {
+          "id": "1",
+          "label": "NgZone helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR)."
+        },
+        {
+          "id": "2",
+          "label": "@Input(): pass data from parent → child."
+        },
+        {
+          "id": "3",
+          "label": "Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Interceptors intercept and modify HTTP requests/responses globally (e.g., add auth headers, log, handle errors)."
+    },
+    {
+      "id": "q320",
+      "question": "Explain the purpose of NgZone in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors."
+        },
+        {
+          "id": "1",
+          "label": "@Input(): pass data from parent → child."
+        },
+        {
+          "id": "2",
+          "label": "Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking."
+        },
+        {
+          "id": "3",
+          "label": "NgZone helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`NgZone` helps Angular know when to run change detection by tracking async tasks (timers, promises, XHR). When async work completes inside the Angular zone, it triggers change detection."
+    },
+    {
+      "id": "q321",
+      "question": "What is the difference between @Input() and @Output() in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors."
+        },
+        {
+          "id": "1",
+          "label": "Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking."
+        },
+        {
+          "id": "2",
+          "label": "Typed forms provide stronger type safety for FormGroup, FormControl, and FormArray, reducing runtime errors and improving maintainability."
+        },
+        {
+          "id": "3",
+          "label": "@Input(): pass data from parent → child."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "- `@Input()`: pass data from parent → child.\n    - `@Output()`: emit events from child → parent (usually via `EventEmitter`)."
+    },
+    {
+      "id": "q322",
+      "question": "How do you implement authentication in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Typed forms provide stronger type safety for FormGroup, FormControl, and FormArray, reducing runtime errors and improving maintainability."
+        },
+        {
+          "id": "1",
+          "label": "Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking."
+        },
+        {
+          "id": "2",
+          "label": "Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring."
+        },
+        {
+          "id": "3",
+          "label": "Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Common approach: store an auth token (e.g., JWT), protect routes with guards, and attach tokens with HTTP interceptors.\n\n    ```ts\n    import { Injectable } from '@angular/core';\n\n    @Injectable({ providedIn: 'root' })\n    export class AuthService {\n      isLoggedIn(): boolean {\n        return !!localStorage.getItem('userToken');\n      }\n    }\n    ```"
+    },
+    {
+      "id": "q323",
+      "question": "What are Standalone Components in Angular 19?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Typed forms provide stronger type safety for FormGroup, FormControl, and FormArray, reducing runtime errors and improving maintainability."
+        },
+        {
+          "id": "1",
+          "label": "Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring."
+        },
+        {
+          "id": "2",
+          "label": "inject() allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional"
+        },
+        {
+          "id": "3",
+          "label": "Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Standalone components remove the need for NgModules for many cases, improving ergonomics and tree-shaking. They can be imported directly into routes and other standalone components."
+    },
+    {
+      "id": "q324",
+      "question": "How do you use Typed Forms?",
+      "options": [
+        {
+          "id": "0",
+          "label": "inject() allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional"
+        },
+        {
+          "id": "1",
+          "label": "Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring."
+        },
+        {
+          "id": "2",
+          "label": "Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling b"
+        },
+        {
+          "id": "3",
+          "label": "Typed forms provide stronger type safety for FormGroup, FormControl, and FormArray, reducing runtime errors and improving maintainability."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Typed forms provide stronger type safety for `FormGroup`, `FormControl`, and `FormArray`, reducing runtime errors and improving maintainability."
+    },
+    {
+      "id": "q325",
+      "question": "What is the purpose of the Signal API?",
+      "options": [
+        {
+          "id": "0",
+          "label": "inject() allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional"
+        },
+        {
+          "id": "1",
+          "label": "Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling b"
+        },
+        {
+          "id": "2",
+          "label": "Functional components focus on rendering based on inputs/outputs with a more functional style."
+        },
+        {
+          "id": "3",
+          "label": "Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Signals provide fine-grained reactivity: state changes automatically re-render dependent views without manual change detection wiring."
+    },
+    {
+      "id": "q326",
+      "question": "How does the inject() function work?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Functional components focus on rendering based on inputs/outputs with a more functional style."
+        },
+        {
+          "id": "1",
+          "label": "Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling b"
+        },
+        {
+          "id": "2",
+          "label": "AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and c"
+        },
+        {
+          "id": "3",
+          "label": "inject() allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`inject()` allows reading dependencies from Angular’s DI system without constructor injection, commonly used in standalone APIs and functional contexts."
+    },
+    {
+      "id": "q327",
+      "question": "What improvements have been made to standalone testing?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Functional components focus on rendering based on inputs/outputs with a more functional style."
+        },
+        {
+          "id": "1",
+          "label": "AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and c"
+        },
+        {
+          "id": "2",
+          "label": "Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and p"
+        },
+        {
+          "id": "3",
+          "label": "Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling b"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Standalone components can be tested directly with less boilerplate (fewer modules), typically improving test setup simplicity and enabling better tree-shaking."
+    },
+    {
+      "id": "q328",
+      "question": "Explain the use of Functional Components?",
+      "options": [
+        {
+          "id": "0",
+          "label": "AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and c"
+        },
+        {
+          "id": "1",
+          "label": "Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and p"
+        },
+        {
+          "id": "2",
+          "label": "Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps."
+        },
+        {
+          "id": "3",
+          "label": "Functional components focus on rendering based on inputs/outputs with a more functional style."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Functional components focus on rendering based on inputs/outputs with a more functional style. They can be simpler for small, reusable UI and can be easier to test."
+    },
+    {
+      "id": "q329",
+      "question": "What is Ahead-of-Time (AOT) compilation in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps."
+        },
+        {
+          "id": "1",
+          "label": "Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and p"
+        },
+        {
+          "id": "2",
+          "label": "A resolver pre-fetches data before route activation so the component has required data when it loads."
+        },
+        {
+          "id": "3",
+          "label": "AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and c"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "AOT compiles templates and TypeScript into optimized JavaScript during build time (before the browser runs the app), improving startup and catching template errors earlier."
+    },
+    {
+      "id": "q330",
+      "question": "What is Ivy in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps."
+        },
+        {
+          "id": "1",
+          "label": "A resolver pre-fetches data before route activation so the component has required data when it loads."
+        },
+        {
+          "id": "2",
+          "label": "| Angular | React | |---|---| | Full framework | UI library | | TypeScript-first | JS/JSX | | Rich built-in tooling | More external librarie"
+        },
+        {
+          "id": "3",
+          "label": "Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and p"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Ivy is Angular’s rendering engine that improves compilation and runtime performance, reduces bundle sizes through better tree-shaking, and provides improved debugging."
+    },
+    {
+      "id": "q331",
+      "question": "Explain the purpose of Angular Elements.",
+      "options": [
+        {
+          "id": "0",
+          "label": "| Angular | React | |---|---| | Full framework | UI library | | TypeScript-first | JS/JSX | | Rich built-in tooling | More external librarie"
+        },
+        {
+          "id": "1",
+          "label": "A resolver pre-fetches data before route activation so the component has required data when it loads."
+        },
+        {
+          "id": "2",
+          "label": "Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions a"
+        },
+        {
+          "id": "3",
+          "label": "Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular Elements packages Angular components as standard Web Components (custom elements) that can be used outside Angular apps.\n\n    - Reuse Angular UI across different frameworks.\n    - Interoperate with non-Angular pages.\n    - Encapsulate implementation details."
+    },
+    {
+      "id": "q332",
+      "question": "What is a Resolver in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "| Angular | React | |---|---| | Full framework | UI library | | TypeScript-first | JS/JSX | | Rich built-in tooling | More external librarie"
+        },
+        {
+          "id": "1",
+          "label": "Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions a"
+        },
+        {
+          "id": "2",
+          "label": "NgModule groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important"
+        },
+        {
+          "id": "3",
+          "label": "A resolver pre-fetches data before route activation so the component has required data when it loads."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "A resolver pre-fetches data before route activation so the component has required data when it loads."
+    },
+    {
+      "id": "q333",
+      "question": "What is difference between Angular and React?",
+      "options": [
+        {
+          "id": "0",
+          "label": "NgModule groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important"
+        },
+        {
+          "id": "1",
+          "label": "Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions a"
+        },
+        {
+          "id": "2",
+          "label": "| Template-driven Forms | Reactive Forms | |---|---| | Uses directives in the template | Defined explicitly in code | | More implicit / asyn"
+        },
+        {
+          "id": "3",
+          "label": "| Angular | React | |---|---| | Full framework | UI library | | TypeScript-first | JS/JSX | | Rich built-in tooling | More external librarie"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "| Angular | React |\n    |---|---|\n    | Full framework | UI library |\n    | TypeScript-first | JS/JSX |\n    | Rich built-in tooling | More external libraries |\n    | Suitable for large, structured apps | Great for interactive UIs |"
+    },
+    {
+      "id": "q334",
+      "question": "How are Angular expressions different from JavaScript expressions? (Advanced)",
+      "options": [
+        {
+          "id": "0",
+          "label": "NgModule groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important"
+        },
+        {
+          "id": "1",
+          "label": "| Template-driven Forms | Reactive Forms | |---|---| | Uses directives in the template | Defined explicitly in code | | More implicit / asyn"
+        },
+        {
+          "id": "2",
+          "label": "Guards control navigation / access to routes."
+        },
+        {
+          "id": "3",
+          "label": "Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions a"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular expressions are optimized for templates and data binding with restrictions for safety and simplicity, while JavaScript expressions are more flexible and used in application logic."
+    },
+    {
+      "id": "q335",
+      "question": "What is the purpose of NgModule in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Guards control navigation / access to routes."
+        },
+        {
+          "id": "1",
+          "label": "| Template-driven Forms | Reactive Forms | |---|---| | Uses directives in the template | Defined explicitly in code | | More implicit / asyn"
+        },
+        {
+          "id": "2",
+          "label": "You can create custom validators by implementing ValidatorFn (sync) or returning an observable/promise (async) and attaching them to form co"
+        },
+        {
+          "id": "3",
+          "label": "NgModule groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`NgModule` groups related components, directives, pipes, and services into a cohesive compilation and dependency context (especially important in non-standalone codebases)."
+    },
+    {
+      "id": "q336",
+      "question": "What is the difference between Template-driven and Reactive Forms?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Guards control navigation / access to routes."
+        },
+        {
+          "id": "1",
+          "label": "You can create custom validators by implementing ValidatorFn (sync) or returning an observable/promise (async) and attaching them to form co"
+        },
+        {
+          "id": "2",
+          "label": "Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability."
+        },
+        {
+          "id": "3",
+          "label": "| Template-driven Forms | Reactive Forms | |---|---| | Uses directives in the template | Defined explicitly in code | | More implicit / asyn"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "| Template-driven Forms | Reactive Forms |\n    |---|---|\n    | Uses directives in the template | Defined explicitly in code |\n    | More implicit / async-ish | More explicit / synchronous |\n    | Simpler forms | Complex forms |\n    | Often uses two-way binding | Immutable form model |"
+    },
+    {
+      "id": "q337",
+      "question": "What are Angular Guards?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability."
+        },
+        {
+          "id": "1",
+          "label": "You can create custom validators by implementing ValidatorFn (sync) or returning an observable/promise (async) and attaching them to form co"
+        },
+        {
+          "id": "2",
+          "label": "Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition."
+        },
+        {
+          "id": "3",
+          "label": "Guards control navigation / access to routes."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Guards control navigation / access to routes.\n\n    Common types:\n\n    - `CanActivate`\n    - `CanDeactivate`\n    - `CanLoad`"
+    },
+    {
+      "id": "q338",
+      "question": "How do you create custom validators in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability."
+        },
+        {
+          "id": "1",
+          "label": "Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition."
+        },
+        {
+          "id": "2",
+          "label": "Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, na"
+        },
+        {
+          "id": "3",
+          "label": "You can create custom validators by implementing ValidatorFn (sync) or returning an observable/promise (async) and attaching them to form co"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "You can create custom validators by implementing `ValidatorFn` (sync) or returning an observable/promise (async) and attaching them to form controls."
+    },
+    {
+      "id": "q339",
+      "question": "What is the purpose of Angular animations?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, na"
+        },
+        {
+          "id": "1",
+          "label": "Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition."
+        },
+        {
+          "id": "2",
+          "label": "Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy load"
+        },
+        {
+          "id": "3",
+          "label": "Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Animations provide smooth UI transitions (fade, slide, resize) driven by state changes, improving perceived quality and usability."
+    },
+    {
+      "id": "q340",
+      "question": "Explain dynamic components in Angular.",
+      "options": [
+        {
+          "id": "0",
+          "label": "Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy load"
+        },
+        {
+          "id": "1",
+          "label": "Renderer2 provides a platform-agnostic and safer way to manipulate the DOM."
+        },
+        {
+          "id": "2",
+          "label": "Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, na"
+        },
+        {
+          "id": "3",
+          "label": "Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Dynamic components are created and inserted at runtime instead of being declared statically in templates, enabling flexible UI composition."
+    },
+    {
+      "id": "q341",
+      "question": "What is Angular Material?",
+      "options": [
+        {
+          "id": "0",
+          "label": "| AOT | JIT | |---|---| | Build-time compilation | Runtime compilation | | Faster startup | Slower startup | | Errors caught earlier | Error"
+        },
+        {
+          "id": "1",
+          "label": "Renderer2 provides a platform-agnostic and safer way to manipulate the DOM."
+        },
+        {
+          "id": "2",
+          "label": "Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy load"
+        },
+        {
+          "id": "3",
+          "label": "Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, na"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Angular Material is a UI component library implementing Material Design, providing pre-built components (buttons, dialogs, form controls, navigation) for building consistent UIs."
+    },
+    {
+      "id": "q342",
+      "question": "What is Eager?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Renderer2 provides a platform-agnostic and safer way to manipulate the DOM."
+        },
+        {
+          "id": "1",
+          "label": "| AOT | JIT | |---|---| | Build-time compilation | Runtime compilation | | Faster startup | Slower startup | | Errors caught earlier | Error"
+        },
+        {
+          "id": "2",
+          "label": "Web Workers move heavy computation off the main thread."
+        },
+        {
+          "id": "3",
+          "label": "Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy load"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Eager loading means modules and features are loaded at application startup, even if they aren’t immediately needed (contrasts with lazy loading)."
+    },
+    {
+      "id": "q343",
+      "question": "What is the purpose of Angular's Renderer2?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Data binding synchronizes component state and template."
+        },
+        {
+          "id": "1",
+          "label": "Web Workers move heavy computation off the main thread."
+        },
+        {
+          "id": "2",
+          "label": "| AOT | JIT | |---|---| | Build-time compilation | Runtime compilation | | Faster startup | Slower startup | | Errors caught earlier | Error"
+        },
+        {
+          "id": "3",
+          "label": "Renderer2 provides a platform-agnostic and safer way to manipulate the DOM."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`Renderer2` provides a platform-agnostic and safer way to manipulate the DOM.\n\n    - Works across different rendering environments.\n    - Helps avoid direct DOM access (better for SSR and security).\n    - Improves testability."
+    },
+    {
+      "id": "q344",
+      "question": "What is the difference between AOT and JIT?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive."
+        },
+        {
+          "id": "1",
+          "label": "Data binding synchronizes component state and template."
+        },
+        {
+          "id": "2",
+          "label": "Web Workers move heavy computation off the main thread."
+        },
+        {
+          "id": "3",
+          "label": "| AOT | JIT | |---|---| | Build-time compilation | Runtime compilation | | Faster startup | Slower startup | | Errors caught earlier | Error"
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "| AOT | JIT |\n    |---|---|\n    | Build-time compilation | Runtime compilation |\n    | Faster startup | Slower startup |\n    | Errors caught earlier | Errors may surface at runtime |\n    | Smaller bundles (no compiler) | Larger bundles (compiler included) |"
+    },
+    {
+      "id": "q345",
+      "question": "What are the benefits of using Web Workers in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive."
+        },
+        {
+          "id": "1",
+          "label": "Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes."
+        },
+        {
+          "id": "2",
+          "label": "Data binding synchronizes component state and template."
+        },
+        {
+          "id": "3",
+          "label": "Web Workers move heavy computation off the main thread."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Web Workers move heavy computation off the main thread.\n\n    - Improves UI responsiveness.\n    - Enables parallel processing.\n    - Helps scalability under load."
+    },
+    {
+      "id": "q346",
+      "question": "What is Data Binding in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "PipeTransform defines the shape of a custom pipe via a transform(...) method that converts an input value into a displayed value."
+        },
+        {
+          "id": "1",
+          "label": "Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes."
+        },
+        {
+          "id": "2",
+          "label": "Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive."
+        },
+        {
+          "id": "3",
+          "label": "Data binding synchronizes component state and template."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Data binding synchronizes component state and template.\n\n    Four common types:\n\n    - Interpolation\n    - Property binding\n    - Event binding\n    - Two-way binding"
+    },
+    {
+      "id": "q347",
+      "question": "What are impure pipes in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "PipeTransform defines the shape of a custom pipe via a transform(...) method that converts an input value into a displayed value."
+        },
+        {
+          "id": "1",
+          "label": "Question: We need to fetch data from multiple APIs and show them together."
+        },
+        {
+          "id": "2",
+          "label": "Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes."
+        },
+        {
+          "id": "3",
+          "label": "Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Impure pipes can run on every change detection cycle (even when inputs haven’t changed by reference), which can be expensive. Use them carefully."
+    },
+    {
+      "id": "q348",
+      "question": "What are pure pipes in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Question: The app is slow due to many modules and components."
+        },
+        {
+          "id": "1",
+          "label": "Question: We need to fetch data from multiple APIs and show them together."
+        },
+        {
+          "id": "2",
+          "label": "PipeTransform defines the shape of a custom pipe via a transform(...) method that converts an input value into a displayed value."
+        },
+        {
+          "id": "3",
+          "label": "Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "Pure pipes only re-run when their input references change, making them more performant and the default behavior for pipes."
+    },
+    {
+      "id": "q349",
+      "question": "What is PipeTransform interface in Angular?",
+      "options": [
+        {
+          "id": "0",
+          "label": "Question: The app is slow due to many modules and components."
+        },
+        {
+          "id": "1",
+          "label": "Question: Validate email format and ensure it’s unique (not already used)."
+        },
+        {
+          "id": "2",
+          "label": "Question: We need to fetch data from multiple APIs and show them together."
+        },
+        {
+          "id": "3",
+          "label": "PipeTransform defines the shape of a custom pipe via a transform(...) method that converts an input value into a displayed value."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "`PipeTransform` defines the shape of a custom pipe via a `transform(...)` method that converts an input value into a displayed value."
+    },
+    {
+      "id": "q350",
+      "question": "Scenario: Handling Data from Multiple APIs",
+      "options": [
+        {
+          "id": "0",
+          "label": "Question: A component is not updating when data changes."
+        },
+        {
+          "id": "1",
+          "label": "Question: Validate email format and ensure it’s unique (not already used)."
+        },
+        {
+          "id": "2",
+          "label": "Question: The app is slow due to many modules and components."
+        },
+        {
+          "id": "3",
+          "label": "Question: We need to fetch data from multiple APIs and show them together."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "**Question:** We need to fetch data from multiple APIs and show them together. How to ensure data is displayed only after all responses are received?\n\n    **Answer:** Use RxJS `forkJoin` to run multiple requests concurrently and wait for all to complete.\n\n    ```ts\n    import { forkJoin } from 'rxjs';\n    import { HttpClient } from '@angular/common/http';\n\n    constructor(private http: HttpClient) {}\n\n    getData() {\n      const api1$ = this.http.get('https://api1.example.com');\n      const api2$ = this.http.get('https://api2.example.com');\n\n      forkJoin([api1$, api2$]).subscribe({\n        next: ([api1Response, api2Response]) => {\n       this.processData(api1Response, api2Response);\n        },\n        error: (err) => console.error('Error fetching data', err),\n      });\n    }\n    ```"
+    },
+    {
+      "id": "q351",
+      "question": "Scenario: Optimizing Angular Performance with Lazy Loading",
+      "options": [
+        {
+          "id": "0",
+          "label": "Question: A component is not updating when data changes."
+        },
+        {
+          "id": "1",
+          "label": "Question: How would you protect routes so only authenticated users can access them?"
+        },
+        {
+          "id": "2",
+          "label": "Question: Validate email format and ensure it’s unique (not already used)."
+        },
+        {
+          "id": "3",
+          "label": "Question: The app is slow due to many modules and components."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "**Question:** The app is slow due to many modules and components. How would you optimize it?\n\n    **Answer:** Implement lazy loading so feature modules load only when needed, reducing initial bundle size.\n\n    ```ts\n    const routes: Routes = [\n      {\n        path: 'feature',\n        loadChildren: () => import('./feature/feature.module').then((m) => m.FeatureModule),\n      },\n    ];\n    ```"
+    },
+    {
+      "id": "q352",
+      "question": "Scenario: Handling Form Validation in Reactive Forms",
+      "options": [
+        {
+          "id": "0",
+          "label": "Question: How would you protect routes so only authenticated users can access them?"
+        },
+        {
+          "id": "1",
+          "label": "Angular is a TypeScript-based open-source front-end platform that makes it easy to build web, mobile and desktop applications."
+        },
+        {
+          "id": "2",
+          "label": "Question: A component is not updating when data changes."
+        },
+        {
+          "id": "3",
+          "label": "Question: Validate email format and ensure it’s unique (not already used)."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "**Question:** Validate email format and ensure it’s unique (not already used).\n\n    **Answer:** Use built-in validators for format and an async validator for uniqueness.\n\n    ```ts\n    import { FormBuilder, Validators } from '@angular/forms';\n    import { AbstractControl } from '@angular/forms';\n    import { of } from 'rxjs';\n    import { delay, map } from 'rxjs/operators';\n\n    constructor(private fb: FormBuilder) {}\n\n    emailForm = this.fb.group({\n      email: this.fb.control('', {\n        validators: [Validators.required, Validators.email],\n        asyncValidators: [this.uniqueEmailValidator.bind(this)],\n      }),\n    });\n\n    uniqueEmailValidator(control: AbstractControl) {\n      const emailsInUse = ['test@example.com', 'user@example.com'];\n      return of(emailsInUse.includes(String(control.value))).pipe(\n        delay(500),\n        map((isInUse) => (isInUse ? { emailInUse: true } : null)),\n      );\n    }\n    ```"
+    },
+    {
+      "id": "q353",
+      "question": "Scenario: Debugging Change Detection Issues",
+      "options": [
+        {
+          "id": "0",
+          "label": "AngularJS (version 1.x) is a JavaScript framework, whereas Angular (version 2+) is a complete rewrite of AngularJS using TypeScript, providing better performanc"
+        },
+        {
+          "id": "1",
+          "label": "Angular is a TypeScript-based open-source front-end platform that makes it easy to build web, mobile and desktop applications."
+        },
+        {
+          "id": "2",
+          "label": "Question: How would you protect routes so only authenticated users can access them?"
+        },
+        {
+          "id": "3",
+          "label": "Question: A component is not updating when data changes."
+        }
+      ],
+      "correctOptionId": "3",
+      "explanationMarkdown": "**Question:** A component is not updating when data changes. How do you debug/fix change detection issues?\n\n    **Answer:** If using `ChangeDetectionStrategy.OnPush`, Angular checks changes mainly on input reference changes. Avoid mutating objects in place; instead create a new reference or call `markForCheck()`.\n\n    ```ts\n    import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';\n\n    @Component({\n      selector: 'app-sample',\n      templateUrl: './sample.component.html',\n      changeDetection: ChangeDetectionStrategy.OnPush,\n    })\n    export class SampleComponent {\n      constructor(private cd: ChangeDetectorRef) {}\n\n      updateData() {\n        this.data = { ...this.data, newValue: 'updated' };\n        this.cd.markForCheck();\n      }\n    }\n    ```"
+    },
+    {
+      "id": "q354",
+      "question": "Scenario: Implementing Route Guards for Authentication",
+      "options": [
+        {
+          "id": "0",
           "label": "AngularJS (version 1.x) is a JavaScript framework, whereas Angular (version 2+) is a complete rewrite of AngularJS using TypeScript, providing better performanc"
         },
         {
@@ -6786,11 +8490,11 @@
         },
         {
           "id": "3",
-          "label": "NgRx is a framework for building reactive applications in Angular."
+          "label": "Question: How would you protect routes so only authenticated users can access them?"
         }
       ],
       "correctOptionId": "3",
-      "explanationMarkdown": "NgRx is a framework for building reactive applications in Angular. It is a state management library that provides a Redux-inspired architecture for managing and centralizing application state. NgRx is built on top of RxJS and follows the principles of reactive programming.\n\n     The main components of NgRx include:\n\n     1. **Store:** A single, immutable data structure that holds the entire application state.\n     2. **Actions:** Plain objects that describe events or user interactions that can change the state.\n     3. **Reducers:** Pure functions that take the current state and an action, and return a new state.\n     4. **Effects:** Side effect handlers that listen to actions and can perform asynchronous operations like API calls.\n     5. **Selectors:** Functions used to query and derive data from the store.\n\n     NgRx helps manage complex state in large Angular applications by providing predictable state management, improved debugging capabilities, and better separation of concerns. It's particularly useful for applications with:\n     - Complex data flows\n     - Multiple components sharing the same data\n     - Need for time-travel debugging\n     - Requirements for state persistence\n\n     Here's a simple example of NgRx usage:\n\n     ```typescript\n     // Action\n     export const loadUsers = createAction('[User List] Load Users');\n\n     // Reducer\n     export const userReducer = createReducer(\n       initialState,\n       on(loadUsers, state => ({ ...state, loading: true }))\n     );\n\n     // Selector\n     export const selectUsers = (state: AppState) => state.users;\n\n     // Component\n     export class UserComponent {\n       users$ = this.store.select(selectUsers);\n       \n       constructor(private store: Store<AppState>) {}\n       \n       loadUsers() {\n         this.store.dispatch(loadUsers());\n       }\n     }\n     ```"
+      "explanationMarkdown": "**Question:** How would you protect routes so only authenticated users can access them?\n\n    **Answer:** Use route guards (e.g., `CanActivate`) to check auth state and redirect unauthenticated users.\n\n    ```ts\n    import { Injectable } from '@angular/core';\n    import { CanActivate, Router } from '@angular/router';\n    import { AuthService } from './auth.service';\n\n    @Injectable({ providedIn: 'root' })\n    export class AuthGuard implements CanActivate {\n      constructor(private authService: AuthService, private router: Router) {}\n\n      canActivate(): boolean {\n        if (this.authService.isAuthenticated()) return true;\n        this.router.navigate(['/login']);\n        return false;\n      }\n    }\n    ```"
     }
   ]
 }
