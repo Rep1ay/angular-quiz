@@ -78,6 +78,11 @@ type ReadStartOption = {
   label: string;
 };
 
+type SpeechLanguageOption = {
+  value: string;
+  label: string;
+};
+
 const PREP_PROGRESS_STORAGE_KEY = 'interview-prep:progress-v2';
 const KNOWLEDGE_PROGRESS_STORAGE_KEY = 'interview-prep:knowledge-v1';
 
@@ -704,10 +709,16 @@ export class InterviewPrepPage implements OnDestroy {
   protected readonly asOfDate = 'March 24, 2026';
   protected readonly ttsSupported$$ = signal(this.hasSpeechSynthesisSupport());
   protected readonly isReading$$ = signal(false);
+  protected readonly selectedSpeechLanguage$$ = signal('en-US');
   protected readonly selectedReadFromSection$$ = signal('');
   protected readonly currentStepId$$ = signal('');
   protected readonly readFromCurrentStepOptionValue = this.readFromCurrentStepValue;
   protected readonly readFromCurrentGoalOptionValue = this.readFromCurrentGoalValue;
+  protected readonly speechLanguageOptions: SpeechLanguageOption[] = [
+    { value: 'en-US', label: 'English (United States)' },
+    { value: 'en-GB', label: 'English (United Kingdom)' },
+    { value: 'pl-PL', label: 'Polski (Polska)' },
+  ];
 
   protected readonly knowledgeBlocks$$ = signal<KnowledgeBlock[]>(this.buildInitialKnowledgeBlocks());
 
@@ -938,6 +949,10 @@ export class InterviewPrepPage implements OnDestroy {
     this.selectedReadFromSection$$.set(selection);
   }
 
+  protected setSpeechLanguage(languageCode: string): void {
+    this.selectedSpeechLanguage$$.set(languageCode);
+  }
+
   protected setCurrentStep(stepId: string): void {
     this.currentStepId$$.set(stepId);
   }
@@ -990,6 +1005,13 @@ export class InterviewPrepPage implements OnDestroy {
     }
 
     const utterance = new SpeechSynthesisUtterance(nextText);
+    const selectedLanguage = this.selectedSpeechLanguage$$();
+    utterance.lang = selectedLanguage;
+    const matchingVoice = this.findBestVoiceForLanguage(synth, selectedLanguage);
+    if (matchingVoice) {
+      utterance.voice = matchingVoice;
+    }
+
     utterance.onend = () => {
       this.speechQueueIndex += 1;
       this.speakNextInQueue();
@@ -1058,6 +1080,21 @@ export class InterviewPrepPage implements OnDestroy {
 
   private hasSpeechSynthesisSupport(): boolean {
     return !!this.getSpeechSynthesis();
+  }
+
+  private findBestVoiceForLanguage(
+    synth: SpeechSynthesis,
+    languageCode: string
+  ): SpeechSynthesisVoice | null {
+    const voices = synth.getVoices();
+    if (!voices.length) return null;
+
+    const exactVoice = voices.find((voice) => voice.lang === languageCode);
+    if (exactVoice) return exactVoice;
+
+    const languagePrefix = languageCode.split('-')[0];
+    const sameLanguageVoice = voices.find((voice) => voice.lang.startsWith(`${languagePrefix}-`));
+    return sameLanguageVoice ?? null;
   }
 
   private getSpeechSynthesis(): SpeechSynthesis | null {

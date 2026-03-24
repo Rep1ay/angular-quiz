@@ -1,4 +1,4 @@
-<section class="prep">
+<section class="prep" lang="en">
   <header class="prep__header">
     <h1 class="prep__title">Senior Angular Developer Interview Preparation Guide</h1>
     <p class="prep__meta">Updated: {{ asOfDate }} (Angular v21)</p>
@@ -31,6 +31,19 @@
       <h2 class="prep__subheading">Frontend Senior Step-by-Step Learning Platform</h2>
       <div class="prep__actions">
         @if (ttsSupported$$()) {
+          <label class="prep__read-from">
+            Reading language
+            <select
+              class="prep__read-lang-select"
+              [value]="selectedSpeechLanguage$$()"
+              (change)="setSpeechLanguage($any($event.target).value)"
+              aria-label="Select the language used for voice reading"
+            >
+              @for (option of speechLanguageOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
           <label class="prep__read-from">
             Start reading from
             <select
