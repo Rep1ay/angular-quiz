@@ -1,5 +1,12 @@
-<router-outlet></router-outlet>
-<div>
-  <!--
-  <app-current-weather-section></app-current-weather-section> -->
-</div>
+<main class="app-shell">
+  <nav class="app-nav" aria-label="Main">
+    <a routerLink="/quiz" routerLinkActive="app-nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+      >Quiz</a
+    >
+    <a routerLink="/interview-prep" routerLinkActive="app-nav__link--active"
+      >Interview Prep Guide</a
+    >
+  </nav>
+
+  <router-outlet></router-outlet>
+</main>

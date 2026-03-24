@@ -1,0 +1,118 @@
+<section class="prep">
+  <header class="prep__header">
+    <h1 class="prep__title">Senior Angular Developer Interview Preparation Guide</h1>
+    <p class="prep__meta">Updated: {{ asOfDate }} (Angular v21)</p>
+  </header>
+
+  <section class="prep__landscape" aria-label="Frontend senior knowledge map">
+    <div class="prep__landscape-head">
+      <h2 class="prep__subheading">Frontend Senior Knowledge Map</h2>
+      <button type="button" class="prep__reset-btn" (click)="resetKnowledgeProgress()">
+        Reset knowledge checkboxes
+      </button>
+    </div>
+
+    <div class="prep__landscape-sections">
+      @for (block of knowledgeBlocks$$(); track block.id; let blockIndex = $index) {
+        <section class="prep__knowledge-block">
+          <h3 class="prep__knowledge-title">{{ block.title }}</h3>
+          <p class="prep__knowledge-summary">{{ block.summary }}</p>
+
+          <div class="prep__knowledge-topics">
+            @for (topic of block.topics; track topic.id; let topicIndex = $index) {
+              <details class="prep__landscape-group" [open]="blockIndex === 0 && topicIndex === 0">
+                <summary class="prep__landscape-group-title">{{ topic.title }}</summary>
+                <label class="prep__topic-check">
+                  <input
+                    type="checkbox"
+                    [checked]="topic.done"
+                    (change)="setKnowledgeTopicDone(block.id, topic.id, $any($event.target).checked)"
+                  />
+                  Done
+                </label>
+                <p class="prep__landscape-group-summary">{{ topic.explanation }}</p>
+
+                <ul class="prep__landscape-list">
+                  @for (highlight of topic.highlights; track highlight) {
+                    <li class="prep__landscape-item">{{ highlight }}</li>
+                  }
+                </ul>
+
+                <p class="prep__sources" aria-label="Topic sources">
+                  @for (source of getKnowledgeSources(topic.id); track source.url; let idx = $index) {
+                    <a
+                      class="prep__source-link"
+                      [href]="source.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >[source {{ idx + 1 }}]</a
+                    >
+                  }
+                </p>
+              </details>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </section>
+
+  <div class="prep__summary">
+    <p class="prep__progress">
+      Progress: {{ completedCount$$() }} / {{ totalCount$$() }} ({{ percentComplete$$() }}%)
+    </p>
+    <p class="prep__next-goal">
+      Next goal:
+      @if (nextGoal$$(); as goal) {
+        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
+      } @else {
+        All goals completed.
+      }
+    </p>
+  </div>
+
+  <div class="prep__sections" aria-label="Phased interview preparation plan">
+    @for (section of sections$$(); track section.id; let index = $index) {
+      <details class="prep__section" [open]="index === 0">
+        <summary class="prep__section-summary">
+          <span class="prep__section-title">{{ section.title }}</span>
+          <span class="prep__section-period">{{ section.period }}</span>
+          <span class="prep__section-progress"
+            >{{ sectionDoneCountById$$()[section.id] }} / {{ section.items.length }}</span
+          >
+        </summary>
+
+        <p class="prep__section-description">{{ section.summary }}</p>
+
+        <ul class="prep__items" aria-label="Section checklist">
+          @for (item of section.items; track item.id) {
+            <li class="prep__item">
+              <label class="prep__task-label">
+                <input
+                  type="checkbox"
+                  [checked]="item.done"
+                  (change)="setItemDone(section.id, item.id, $any($event.target).checked)"
+                />
+                <span class="prep__task-text">
+                  <span [class.prep__task-title--done]="item.done">{{ item.title }}</span>
+                </span>
+              </label>
+              <p class="prep__item-explanation">{{ item.explanation }}</p>
+              <p class="prep__sources" aria-label="Item sources">
+                @for (source of getPrepItemSources(item.id); track source.url; let idx = $index) {
+                  <a
+                    class="prep__source-link"
+                    [href]="source.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >[source {{ idx + 1 }}]</a
+                  >
+                }
+              </p>
+            </li>
+          }
+        </ul>
+      </details>
+    }
+  </div>
+</section>
