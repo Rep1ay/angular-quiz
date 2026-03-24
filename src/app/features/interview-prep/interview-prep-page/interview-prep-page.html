@@ -38,17 +38,20 @@
       @for (step of orderedSteps$$(); track step.id; let stepIndex = $index) {
         <details class="prep__landscape-group" [open]="stepIndex === 0">
           <summary class="prep__landscape-group-title">
-            Step {{ stepIndex + 1 }}: {{ step.title }}
+            <span class="prep__summary-main">
+              <span>Step {{ stepIndex + 1 }}: {{ step.title }}</span>
+              <label class="prep__topic-check prep__topic-check--inline" (click)="$event.stopPropagation()">
+                <input
+                  type="checkbox"
+                  [checked]="step.done"
+                  (click)="$event.stopPropagation()"
+                  (change)="setStepDone(step, $any($event.target).checked)"
+                />
+                Done
+              </label>
+            </span>
           </summary>
           <p class="prep__knowledge-summary">{{ step.sectionTitle }}</p>
-          <label class="prep__topic-check">
-            <input
-              type="checkbox"
-              [checked]="step.done"
-              (change)="setStepDone(step, $any($event.target).checked)"
-            />
-            Done
-          </label>
           <p class="prep__landscape-group-summary">{{ step.explanation }}</p>
 
           @if (step.highlights.length > 0) {

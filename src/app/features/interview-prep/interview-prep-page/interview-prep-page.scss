@@ -107,6 +107,14 @@
   font-weight: 600;
 }
 
+.prep__summary-main {
+  display: inline-flex;
+  width: calc(100% - 16px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .prep__landscape-group-summary {
   margin: 8px 0;
   color: var(--muted);
@@ -118,6 +126,11 @@
   gap: 8px;
   margin-top: 8px;
   color: var(--muted);
+}
+
+.prep__topic-check--inline {
+  margin-top: 0;
+  font-weight: 400;
 }
 
 .prep__sources {
