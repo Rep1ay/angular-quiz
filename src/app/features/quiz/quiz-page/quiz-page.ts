@@ -3,6 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } 
 
 import { QuizContentService } from '../quiz-content/quiz-content.service';
 
+const LAST_QUESTION_NUMBER_STORAGE_KEY = 'quiz:last-question-number';
+const QUIZ_MODE_ENABLED_STORAGE_KEY = 'quiz:mode-enabled';
+
 @Component({
   selector: 'app-quiz-page',
   standalone: true,
@@ -15,12 +18,13 @@ export class QuizPage {
   private readonly quizContentService = inject(QuizContentService);
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly document = inject(DOCUMENT);
+  private hasRestoredStoredQuestion = false;
 
   protected readonly state$$ = this.quizContentService.state$$;
 
   protected readonly questionIndex$$ = signal(0);
 
-  protected readonly quizModeEnabled$$ = signal(true);
+  protected readonly quizModeEnabled$$ = signal(this.readStoredQuizModeEnabled() ?? true);
 
   protected readonly jumpToQuestion$$ = signal('1');
 
@@ -69,6 +73,31 @@ export class QuizPage {
     if (this.isMobileViewport()) {
       queueMicrotask(() => this.viewportScroller.scrollToPosition([0, 0]));
     }
+  });
+
+  private readonly restoreStoredQuestionOnReady = effect(() => {
+    const total = this.totalQuestions$$();
+    if (total === 0 || this.hasRestoredStoredQuestion) return;
+
+    this.hasRestoredStoredQuestion = true;
+
+    const storedQuestionNumber = this.readStoredQuestionNumber();
+    if (storedQuestionNumber === null) return;
+
+    const clampedQuestionNumber = Math.min(Math.max(storedQuestionNumber, 1), total);
+    this.questionIndex$$.set(clampedQuestionNumber - 1);
+  });
+
+  private readonly persistCurrentQuestion = effect(() => {
+    const total = this.totalQuestions$$();
+    if (total === 0 || !this.hasRestoredStoredQuestion) return;
+
+    const questionNumber = this.questionIndex$$() + 1;
+    this.writeStoredQuestionNumber(questionNumber);
+  });
+
+  private readonly persistQuizMode = effect(() => {
+    this.writeStoredQuizModeEnabled(this.quizModeEnabled$$());
   });
 
   constructor() {
@@ -137,6 +166,65 @@ export class QuizPage {
   private resetAnswerState(): void {
     this.selectedOptionId$$.set(null);
     this.checked$$.set(false);
+  }
+
+  private readStoredQuestionNumber(): number | null {
+    const storage = this.getStorage();
+    if (!storage) return null;
+
+    try {
+      const raw = storage.getItem(LAST_QUESTION_NUMBER_STORAGE_KEY);
+      if (!raw) return null;
+
+      const parsed = Number.parseInt(raw, 10);
+      return Number.isFinite(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private writeStoredQuestionNumber(questionNumber: number): void {
+    const storage = this.getStorage();
+    if (!storage) return;
+
+    try {
+      storage.setItem(LAST_QUESTION_NUMBER_STORAGE_KEY, String(questionNumber));
+    } catch {
+      // Ignore storage errors (private mode, quota limits, etc.).
+    }
+  }
+
+  private readStoredQuizModeEnabled(): boolean | null {
+    const storage = this.getStorage();
+    if (!storage) return null;
+
+    try {
+      const raw = storage.getItem(QUIZ_MODE_ENABLED_STORAGE_KEY);
+      if (raw === 'true') return true;
+      if (raw === 'false') return false;
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
+  private writeStoredQuizModeEnabled(enabled: boolean): void {
+    const storage = this.getStorage();
+    if (!storage) return;
+
+    try {
+      storage.setItem(QUIZ_MODE_ENABLED_STORAGE_KEY, String(enabled));
+    } catch {
+      // Ignore storage errors (private mode, quota limits, etc.).
+    }
+  }
+
+  private getStorage(): Storage | null {
+    try {
+      return this.document.defaultView?.localStorage ?? null;
+    } catch {
+      return null;
+    }
   }
 
   private isMobileViewport(): boolean {
