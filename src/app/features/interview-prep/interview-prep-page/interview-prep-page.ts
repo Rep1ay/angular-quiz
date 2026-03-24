@@ -1,5 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 
 type PrepItem = {
   id: string;
@@ -521,10 +529,14 @@ const PREP_SECTIONS: PrepSectionTemplate[] = [
   styleUrl: './interview-prep-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InterviewPrepPage {
+export class InterviewPrepPage implements OnDestroy {
   private readonly document = inject(DOCUMENT);
+  private speechQueue: string[] = [];
+  private speechQueueIndex = 0;
 
   protected readonly asOfDate = 'March 24, 2026';
+  protected readonly ttsSupported$$ = signal(this.hasSpeechSynthesisSupport());
+  protected readonly isReading$$ = signal(false);
 
   protected readonly knowledgeBlocks$$ = signal<KnowledgeBlock[]>(this.buildInitialKnowledgeBlocks());
 
@@ -722,6 +734,92 @@ export class InterviewPrepPage {
     }
 
     return this.getPrepItemSources(step.id);
+  }
+
+  protected toggleReadAllSections(): void {
+    if (!this.ttsSupported$$()) return;
+
+    if (this.isReading$$()) {
+      this.stopReading();
+      return;
+    }
+
+    this.startReadingAllSections();
+  }
+
+  protected stopReading(): void {
+    const synth = this.getSpeechSynthesis();
+    synth?.cancel();
+    this.isReading$$.set(false);
+    this.speechQueue = [];
+    this.speechQueueIndex = 0;
+  }
+
+  ngOnDestroy(): void {
+    this.stopReading();
+  }
+
+  private startReadingAllSections(): void {
+    const synth = this.getSpeechSynthesis();
+    if (!synth) return;
+
+    const queue = this.buildNarrationQueue();
+    if (queue.length === 0) return;
+
+    synth.cancel();
+    this.speechQueue = queue;
+    this.speechQueueIndex = 0;
+    this.isReading$$.set(true);
+    this.speakNextInQueue();
+  }
+
+  private speakNextInQueue(): void {
+    const synth = this.getSpeechSynthesis();
+    if (!synth || !this.isReading$$()) {
+      this.isReading$$.set(false);
+      return;
+    }
+
+    const nextText = this.speechQueue[this.speechQueueIndex];
+    if (!nextText) {
+      this.isReading$$.set(false);
+      this.speechQueue = [];
+      this.speechQueueIndex = 0;
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(nextText);
+    utterance.onend = () => {
+      this.speechQueueIndex += 1;
+      this.speakNextInQueue();
+    };
+    utterance.onerror = () => {
+      this.speechQueueIndex += 1;
+      this.speakNextInQueue();
+    };
+
+    synth.speak(utterance);
+  }
+
+  private buildNarrationQueue(): string[] {
+    return this.orderedSteps$$().map((step, index) => {
+      const highlightsText =
+        step.highlights.length > 0 ? ` Highlights: ${step.highlights.join(' ')}` : '';
+
+      return `Step ${index + 1}. ${step.title}. Section: ${step.sectionTitle}. ${step.explanation}.${highlightsText}`;
+    });
+  }
+
+  private hasSpeechSynthesisSupport(): boolean {
+    return !!this.getSpeechSynthesis();
+  }
+
+  private getSpeechSynthesis(): SpeechSynthesis | null {
+    try {
+      return this.document.defaultView?.speechSynthesis ?? null;
+    } catch {
+      return null;
+    }
   }
 
   private buildInitialSections(): PrepSection[] {

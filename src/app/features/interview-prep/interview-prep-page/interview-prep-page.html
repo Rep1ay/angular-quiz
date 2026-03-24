@@ -29,10 +29,20 @@
   <section class="prep__landscape" aria-label="Frontend senior learning platform">
     <div class="prep__landscape-head">
       <h2 class="prep__subheading">Frontend Senior Step-by-Step Learning Platform</h2>
-      <button type="button" class="prep__reset-btn" (click)="resetAllProgress()">
-        Reset all checkboxes
-      </button>
+      <div class="prep__actions">
+        @if (ttsSupported$$()) {
+          <button type="button" class="prep__read-btn" (click)="toggleReadAllSections()">
+            {{ isReading$$() ? 'Stop reading' : 'Play all sections' }}
+          </button>
+        }
+        <button type="button" class="prep__reset-btn" (click)="resetAllProgress()">
+          Reset all checkboxes
+        </button>
+      </div>
     </div>
+    @if (ttsSupported$$() && isReading$$()) {
+      <p class="prep__read-status" aria-live="polite">Reading all sections…</p>
+    }
 
     <div class="prep__landscape-sections">
       @for (step of orderedSteps$$(); track step.id; let stepIndex = $index) {
