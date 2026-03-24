@@ -52,6 +52,7 @@ type SourceLink = {
 };
 
 type GoalItem = {
+  stepNumber: number;
   sectionTitle: string;
   itemTitle: string;
 };
@@ -539,6 +540,7 @@ export class InterviewPrepPage implements OnDestroy {
   private speechQueue: string[] = [];
   private speechQueueIndex = 0;
   private readonly readFromCurrentStepValue = '__current-step__';
+  private readonly readFromCurrentGoalValue = '__current-goal__';
   private readonly readFromStepPrefix = '__step__:';
 
   protected readonly asOfDate = 'March 24, 2026';
@@ -547,6 +549,7 @@ export class InterviewPrepPage implements OnDestroy {
   protected readonly selectedReadFromSection$$ = signal('');
   protected readonly currentStepId$$ = signal('');
   protected readonly readFromCurrentStepOptionValue = this.readFromCurrentStepValue;
+  protected readonly readFromCurrentGoalOptionValue = this.readFromCurrentGoalValue;
 
   protected readonly knowledgeBlocks$$ = signal<KnowledgeBlock[]>(this.buildInitialKnowledgeBlocks());
 
@@ -635,9 +638,14 @@ export class InterviewPrepPage implements OnDestroy {
   });
 
   protected readonly pendingGoals$$ = computed<GoalItem[]>(() =>
-    this.allLearningItems$$()
-      .filter(({ item }) => !item.done)
-      .map(({ sectionTitle, item }) => ({ sectionTitle, itemTitle: item.title }))
+    this.orderedSteps$$()
+      .map((step, index) => ({ step, stepNumber: index + 1 }))
+      .filter(({ step }) => !step.done)
+      .map(({ step, stepNumber }) => ({
+        stepNumber,
+        sectionTitle: step.sectionTitle,
+        itemTitle: step.title,
+      }))
   );
 
   protected readonly currentGoal$$ = computed<GoalItem | null>(() => {
@@ -835,6 +843,7 @@ export class InterviewPrepPage implements OnDestroy {
   private buildNarrationQueue(startSelection: string): string[] {
     const indexedSteps = this.orderedSteps$$().map((step, index) => ({ step, index }));
     const startFromCurrentStep = startSelection === this.readFromCurrentStepValue;
+    const startFromCurrentGoal = startSelection === this.readFromCurrentGoalValue;
     const startFromSpecificStep = startSelection.startsWith(this.readFromStepPrefix);
     const selectedStepId = startFromSpecificStep
       ? startSelection.slice(this.readFromStepPrefix.length)
@@ -842,9 +851,11 @@ export class InterviewPrepPage implements OnDestroy {
 
     const startIndex = startFromCurrentStep
       ? this.getCurrentStepStartIndex(indexedSteps)
-      : selectedStepId
-        ? indexedSteps.findIndex(({ step }) => step.id === selectedStepId)
-        : 0;
+      : startFromCurrentGoal
+        ? this.getCurrentGoalStartIndex(indexedSteps)
+        : selectedStepId
+          ? indexedSteps.findIndex(({ step }) => step.id === selectedStepId)
+          : 0;
 
     const queueSource = startIndex >= 0 ? indexedSteps.slice(startIndex) : indexedSteps;
 
@@ -864,6 +875,13 @@ export class InterviewPrepPage implements OnDestroy {
 
     const currentIndex = indexedSteps.findIndex(({ step }) => step.id === currentStepId);
     return currentIndex >= 0 ? currentIndex : 0;
+  }
+
+  private getCurrentGoalStartIndex(
+    indexedSteps: Array<{ step: LearningStep; index: number }>
+  ): number {
+    const firstUndoneIndex = indexedSteps.findIndex(({ step }) => !step.done);
+    return firstUndoneIndex >= 0 ? firstUndoneIndex : 0;
   }
 
   private hasSpeechSynthesisSupport(): boolean {

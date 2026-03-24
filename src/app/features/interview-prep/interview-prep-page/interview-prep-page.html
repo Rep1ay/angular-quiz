@@ -11,7 +11,7 @@
     <p class="prep__next-goal">
       Current goal:
       @if (currentGoal$$(); as goal) {
-        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
+        Step {{ goal.stepNumber }} — {{ goal.itemTitle }} ({{ goal.sectionTitle }})
       } @else {
         All goals completed.
       }
@@ -19,7 +19,7 @@
     <p class="prep__next-goal">
       Next goal:
       @if (nextGoal$$(); as goal) {
-        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
+        Step {{ goal.stepNumber }} — {{ goal.itemTitle }} ({{ goal.sectionTitle }})
       } @else {
         No next goal yet.
       }
@@ -40,6 +40,7 @@
             >
               <option value="">Beginning</option>
               <option [value]="readFromCurrentStepOptionValue">Current step</option>
+              <option [value]="readFromCurrentGoalOptionValue">Current goal</option>
               @for (option of readStartOptions$$(); track option.value) {
                 <option [value]="option.value">{{ option.label }}</option>
               }
