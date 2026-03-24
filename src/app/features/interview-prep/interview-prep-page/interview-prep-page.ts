@@ -48,6 +48,17 @@ type GoalItem = {
   itemTitle: string;
 };
 
+type LearningStep = {
+  kind: 'knowledge' | 'phase';
+  parentId: string;
+  id: string;
+  sectionTitle: string;
+  title: string;
+  explanation: string;
+  done: boolean;
+  highlights: string[];
+};
+
 const PREP_PROGRESS_STORAGE_KEY = 'interview-prep:progress-v2';
 const KNOWLEDGE_PROGRESS_STORAGE_KEY = 'interview-prep:knowledge-v1';
 
@@ -554,6 +565,33 @@ export class InterviewPrepPage {
     ...this.allPhaseItems$$(),
   ]);
 
+  protected readonly orderedSteps$$ = computed<LearningStep[]>(() => [
+    ...this.knowledgeBlocks$$().flatMap((block) =>
+      block.topics.map((topic) => ({
+        kind: 'knowledge' as const,
+        parentId: block.id,
+        id: topic.id,
+        sectionTitle: block.title,
+        title: topic.title,
+        explanation: topic.explanation,
+        done: topic.done,
+        highlights: topic.highlights,
+      }))
+    ),
+    ...this.sections$$().flatMap((section) =>
+      section.items.map((item) => ({
+        kind: 'phase' as const,
+        parentId: section.id,
+        id: item.id,
+        sectionTitle: `${section.title} (${section.period})`,
+        title: item.title,
+        explanation: item.explanation,
+        done: item.done,
+        highlights: [],
+      }))
+    ),
+  ]);
+
   protected readonly totalCount$$ = computed(() => this.allLearningItems$$().length);
 
   protected readonly completedCount$$ = computed(
@@ -624,6 +662,16 @@ export class InterviewPrepPage {
     );
   }
 
+  protected resetAllProgress(): void {
+    this.resetKnowledgeProgress();
+    this.sections$$.update((sections) =>
+      sections.map((section) => ({
+        ...section,
+        items: section.items.map((item) => ({ ...item, done: false })),
+      }))
+    );
+  }
+
   protected setItemDone(sectionId: string, itemId: string, done: boolean): void {
     this.sections$$.update((sections) =>
       sections.map((section) =>
@@ -637,6 +685,15 @@ export class InterviewPrepPage {
             }
       )
     );
+  }
+
+  protected setStepDone(step: LearningStep, done: boolean): void {
+    if (step.kind === 'knowledge') {
+      this.setKnowledgeTopicDone(step.parentId, step.id, done);
+      return;
+    }
+
+    this.setItemDone(step.parentId, step.id, done);
   }
 
   protected getKnowledgeSources(topicId: string): SourceLink[] {
@@ -657,6 +714,14 @@ export class InterviewPrepPage {
     if (itemId.startsWith('p4-')) return PHASE_4_SOURCES;
 
     return PHASE_1_SOURCES;
+  }
+
+  protected getStepSources(step: LearningStep): SourceLink[] {
+    if (step.kind === 'knowledge') {
+      return this.getKnowledgeSources(step.id);
+    }
+
+    return this.getPrepItemSources(step.id);
   }
 
   private buildInitialSections(): PrepSection[] {
