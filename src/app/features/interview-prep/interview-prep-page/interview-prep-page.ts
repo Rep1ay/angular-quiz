@@ -67,6 +67,11 @@ type LearningStep = {
   highlights: string[];
 };
 
+type ReadStartOption = {
+  value: string;
+  label: string;
+};
+
 const PREP_PROGRESS_STORAGE_KEY = 'interview-prep:progress-v2';
 const KNOWLEDGE_PROGRESS_STORAGE_KEY = 'interview-prep:knowledge-v1';
 
@@ -533,10 +538,15 @@ export class InterviewPrepPage implements OnDestroy {
   private readonly document = inject(DOCUMENT);
   private speechQueue: string[] = [];
   private speechQueueIndex = 0;
+  private readonly readFromCurrentStepValue = '__current-step__';
+  private readonly readFromStepPrefix = '__step__:';
 
   protected readonly asOfDate = 'March 24, 2026';
   protected readonly ttsSupported$$ = signal(this.hasSpeechSynthesisSupport());
   protected readonly isReading$$ = signal(false);
+  protected readonly selectedReadFromSection$$ = signal('');
+  protected readonly currentStepId$$ = signal('');
+  protected readonly readFromCurrentStepOptionValue = this.readFromCurrentStepValue;
 
   protected readonly knowledgeBlocks$$ = signal<KnowledgeBlock[]>(this.buildInitialKnowledgeBlocks());
 
@@ -603,6 +613,13 @@ export class InterviewPrepPage implements OnDestroy {
       }))
     ),
   ]);
+
+  protected readonly readStartOptions$$ = computed<ReadStartOption[]>(() =>
+    this.orderedSteps$$().map((step, index) => ({
+      value: `${this.readFromStepPrefix}${step.id}`,
+      label: `Step ${index + 1}: ${step.title}`,
+    }))
+  );
 
   protected readonly totalCount$$ = computed(() => this.allLearningItems$$().length);
 
@@ -747,6 +764,20 @@ export class InterviewPrepPage implements OnDestroy {
     this.startReadingAllSections();
   }
 
+  protected setReadStartSelection(selection: string): void {
+    this.selectedReadFromSection$$.set(selection);
+  }
+
+  protected setCurrentStep(stepId: string): void {
+    this.currentStepId$$.set(stepId);
+  }
+
+  protected onStepToggle(stepId: string, isOpen: boolean): void {
+    if (isOpen) {
+      this.currentStepId$$.set(stepId);
+    }
+  }
+
   protected stopReading(): void {
     const synth = this.getSpeechSynthesis();
     synth?.cancel();
@@ -763,7 +794,7 @@ export class InterviewPrepPage implements OnDestroy {
     const synth = this.getSpeechSynthesis();
     if (!synth) return;
 
-    const queue = this.buildNarrationQueue();
+    const queue = this.buildNarrationQueue(this.selectedReadFromSection$$());
     if (queue.length === 0) return;
 
     synth.cancel();
@@ -801,13 +832,38 @@ export class InterviewPrepPage implements OnDestroy {
     synth.speak(utterance);
   }
 
-  private buildNarrationQueue(): string[] {
-    return this.orderedSteps$$().map((step, index) => {
+  private buildNarrationQueue(startSelection: string): string[] {
+    const indexedSteps = this.orderedSteps$$().map((step, index) => ({ step, index }));
+    const startFromCurrentStep = startSelection === this.readFromCurrentStepValue;
+    const startFromSpecificStep = startSelection.startsWith(this.readFromStepPrefix);
+    const selectedStepId = startFromSpecificStep
+      ? startSelection.slice(this.readFromStepPrefix.length)
+      : '';
+
+    const startIndex = startFromCurrentStep
+      ? this.getCurrentStepStartIndex(indexedSteps)
+      : selectedStepId
+        ? indexedSteps.findIndex(({ step }) => step.id === selectedStepId)
+        : 0;
+
+    const queueSource = startIndex >= 0 ? indexedSteps.slice(startIndex) : indexedSteps;
+
+    return queueSource.map(({ step, index }) => {
       const highlightsText =
         step.highlights.length > 0 ? ` Highlights: ${step.highlights.join(' ')}` : '';
 
       return `Step ${index + 1}. ${step.title}. Section: ${step.sectionTitle}. ${step.explanation}.${highlightsText}`;
     });
+  }
+
+  private getCurrentStepStartIndex(
+    indexedSteps: Array<{ step: LearningStep; index: number }>
+  ): number {
+    const currentStepId = this.currentStepId$$();
+    if (!currentStepId) return 0;
+
+    const currentIndex = indexedSteps.findIndex(({ step }) => step.id === currentStepId);
+    return currentIndex >= 0 ? currentIndex : 0;
   }
 
   private hasSpeechSynthesisSupport(): boolean {

@@ -38,6 +38,17 @@
   flex-wrap: wrap;
 }
 
+.prep__read-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.prep__read-select {
+  min-width: 260px;
+}
+
 .prep__read-btn,
 .prep__reset-btn {
   padding: 6px 10px;

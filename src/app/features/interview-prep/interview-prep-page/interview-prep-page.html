@@ -31,6 +31,20 @@
       <h2 class="prep__subheading">Frontend Senior Step-by-Step Learning Platform</h2>
       <div class="prep__actions">
         @if (ttsSupported$$()) {
+          <label class="prep__read-from">
+            Start from
+            <select
+              class="prep__read-select"
+              [value]="selectedReadFromSection$$()"
+              (change)="setReadStartSelection($any($event.target).value)"
+            >
+              <option value="">Beginning</option>
+              <option [value]="readFromCurrentStepOptionValue">Current step</option>
+              @for (option of readStartOptions$$(); track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
           <button type="button" class="prep__read-btn" (click)="toggleReadAllSections()">
             {{ isReading$$() ? 'Stop reading' : 'Play all sections' }}
           </button>
@@ -46,9 +60,13 @@
 
     <div class="prep__landscape-sections">
       @for (step of orderedSteps$$(); track step.id; let stepIndex = $index) {
-        <details class="prep__landscape-group" [open]="stepIndex === 0">
+        <details
+          class="prep__landscape-group"
+          [open]="stepIndex === 0"
+          (toggle)="onStepToggle(step.id, $any($event.target).open)"
+        >
           <summary class="prep__landscape-group-title">
-            <span class="prep__summary-main">
+            <span class="prep__summary-main" (click)="setCurrentStep(step.id)">
               <span>Step {{ stepIndex + 1 }}: {{ step.title }}</span>
               <label class="prep__topic-check prep__topic-check--inline" (click)="$event.stopPropagation()">
                 <input
