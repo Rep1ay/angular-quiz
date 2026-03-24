@@ -4,6 +4,28 @@
     <p class="prep__meta">Updated: {{ asOfDate }} (Angular v21)</p>
   </header>
 
+  <div class="prep__summary">
+    <p class="prep__progress">
+      Overall progress: {{ completedCount$$() }} / {{ totalCount$$() }} ({{ percentComplete$$() }}%)
+    </p>
+    <p class="prep__next-goal">
+      Current goal:
+      @if (currentGoal$$(); as goal) {
+        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
+      } @else {
+        All goals completed.
+      }
+    </p>
+    <p class="prep__next-goal">
+      Next goal:
+      @if (nextGoal$$(); as goal) {
+        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
+      } @else {
+        No next goal yet.
+      }
+    </p>
+  </div>
+
   <section class="prep__landscape" aria-label="Frontend senior knowledge map">
     <div class="prep__landscape-head">
       <h2 class="prep__subheading">Frontend Senior Knowledge Map</h2>
@@ -15,7 +37,12 @@
     <div class="prep__landscape-sections">
       @for (block of knowledgeBlocks$$(); track block.id; let blockIndex = $index) {
         <section class="prep__knowledge-block">
-          <h3 class="prep__knowledge-title">{{ block.title }}</h3>
+          <div class="prep__knowledge-head">
+            <h3 class="prep__knowledge-title">{{ block.title }}</h3>
+            <span class="prep__knowledge-progress"
+              >{{ knowledgeDoneCountById$$()[block.id] }} / {{ block.topics.length }}</span
+            >
+          </div>
           <p class="prep__knowledge-summary">{{ block.summary }}</p>
 
           <div class="prep__knowledge-topics">
@@ -56,20 +83,6 @@
       }
     </div>
   </section>
-
-  <div class="prep__summary">
-    <p class="prep__progress">
-      Progress: {{ completedCount$$() }} / {{ totalCount$$() }} ({{ percentComplete$$() }}%)
-    </p>
-    <p class="prep__next-goal">
-      Next goal:
-      @if (nextGoal$$(); as goal) {
-        {{ goal.sectionTitle }} — {{ goal.itemTitle }}
-      } @else {
-        All goals completed.
-      }
-    </p>
-  </div>
 
   <div class="prep__sections" aria-label="Phased interview preparation plan">
     @for (section of sections$$(); track section.id; let index = $index) {

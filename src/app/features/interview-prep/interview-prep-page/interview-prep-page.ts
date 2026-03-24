@@ -43,10 +43,10 @@ type SourceLink = {
   url: string;
 };
 
-type NextGoal = {
+type GoalItem = {
   sectionTitle: string;
   itemTitle: string;
-} | null;
+};
 
 const PREP_PROGRESS_STORAGE_KEY = 'interview-prep:progress-v2';
 const KNOWLEDGE_PROGRESS_STORAGE_KEY = 'interview-prep:knowledge-v1';
@@ -519,6 +519,15 @@ export class InterviewPrepPage {
 
   protected readonly sections$$ = signal<PrepSection[]>(this.buildInitialSections());
 
+  protected readonly knowledgeDoneCountById$$ = computed(() => {
+    const counts: Record<string, number> = {};
+    for (const block of this.knowledgeBlocks$$()) {
+      counts[block.id] = block.topics.filter((topic) => topic.done).length;
+    }
+
+    return counts;
+  });
+
   protected readonly sectionDoneCountById$$ = computed(() => {
     const counts: Record<string, number> = {};
     for (const section of this.sections$$()) {
@@ -528,16 +537,27 @@ export class InterviewPrepPage {
     return counts;
   });
 
-  protected readonly allItems$$ = computed(() =>
+  protected readonly allPhaseItems$$ = computed(() =>
     this.sections$$().flatMap((section) =>
       section.items.map((item) => ({ sectionTitle: section.title, item }))
     )
   );
 
-  protected readonly totalCount$$ = computed(() => this.allItems$$().length);
+  protected readonly allKnowledgeItems$$ = computed(() =>
+    this.knowledgeBlocks$$().flatMap((block) =>
+      block.topics.map((topic) => ({ sectionTitle: block.title, item: topic }))
+    )
+  );
+
+  protected readonly allLearningItems$$ = computed(() => [
+    ...this.allKnowledgeItems$$(),
+    ...this.allPhaseItems$$(),
+  ]);
+
+  protected readonly totalCount$$ = computed(() => this.allLearningItems$$().length);
 
   protected readonly completedCount$$ = computed(
-    () => this.allItems$$().filter(({ item }) => item.done).length
+    () => this.allLearningItems$$().filter(({ item }) => item.done).length
   );
 
   protected readonly percentComplete$$ = computed(() => {
@@ -547,13 +567,24 @@ export class InterviewPrepPage {
     return Math.round((this.completedCount$$() / total) * 100);
   });
 
-  protected readonly nextGoal$$ = computed<NextGoal>(() => {
-    const pending = this.allItems$$().find(({ item }) => !item.done);
-    return pending ? { sectionTitle: pending.sectionTitle, itemTitle: pending.item.title } : null;
+  protected readonly pendingGoals$$ = computed<GoalItem[]>(() =>
+    this.allLearningItems$$()
+      .filter(({ item }) => !item.done)
+      .map(({ sectionTitle, item }) => ({ sectionTitle, itemTitle: item.title }))
+  );
+
+  protected readonly currentGoal$$ = computed<GoalItem | null>(() => {
+    const pendingGoals = this.pendingGoals$$();
+    return pendingGoals.length > 0 ? pendingGoals[0] : null;
+  });
+
+  protected readonly nextGoal$$ = computed<GoalItem | null>(() => {
+    const pendingGoals = this.pendingGoals$$();
+    return pendingGoals.length > 1 ? pendingGoals[1] : null;
   });
 
   private readonly persistProgress = effect(() => {
-    const doneIds = this.allItems$$()
+    const doneIds = this.allPhaseItems$$()
       .filter(({ item }) => item.done)
       .map(({ item }) => item.id);
 
