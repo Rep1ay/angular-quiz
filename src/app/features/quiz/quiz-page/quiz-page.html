@@ -51,13 +51,6 @@
         </div>
       }
 
-      @if (quizModeEnabled$$()) {
-        <div class="quiz__nav-row">
-          <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
-          <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
-        </div>
-      }
-
       @if (quizModeEnabled$$() && isCorrect$$() !== null) {
         <p class="quiz__result">
           @if (isCorrect$$()) {
@@ -74,6 +67,11 @@
       </details>
 
       <div class="quiz__pagination-row">
+        <div class="quiz__nav-row" role="group" aria-label="Question navigation">
+          <button type="button" (click)="prev()" [disabled]="!canGoPrev$$()">Prev</button>
+          <button type="button" (click)="next()" [disabled]="!canGoNext$$()">Next</button>
+        </div>
+
         <div class="quiz__jump" role="group" aria-label="Jump to question">
           <label class="quiz__jump-label" for="jumpTo">Go to</label>
           <input

@@ -72,6 +72,9 @@
 .quiz__pagination-row {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .quiz__jump {
