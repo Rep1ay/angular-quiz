@@ -144,6 +144,50 @@
   color: var(--muted);
 }
 
+.prep__general {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.prep__general-title,
+.prep__general-subtitle {
+  margin: 0;
+  font-weight: 600;
+}
+
+.prep__qa {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.prep__qa-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.prep__qa-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.prep__qa-item {
+  display: grid;
+  gap: 2px;
+}
+
+.prep__qa-question,
+.prep__qa-answer {
+  margin: 0;
+}
+
+.prep__qa-answer {
+  color: var(--muted);
+}
+
 .prep__topic-check {
   display: inline-flex;
   align-items: center;
@@ -162,6 +206,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.prep__sources-title {
+  margin: 0;
+  width: 100%;
+  font-weight: 600;
 }
 
 .prep__source-link {

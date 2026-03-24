@@ -32,31 +32,49 @@
       <div class="prep__actions">
         @if (ttsSupported$$()) {
           <label class="prep__read-from">
-            Start from
+            Start reading from
             <select
               class="prep__read-select"
               [value]="selectedReadFromSection$$()"
               (change)="setReadStartSelection($any($event.target).value)"
+              aria-label="Select where voice reading starts"
             >
-              <option value="">Beginning</option>
-              <option [value]="readFromCurrentStepOptionValue">Current step</option>
-              <option [value]="readFromCurrentGoalOptionValue">Current goal</option>
+              <option value="">Beginning of learning plan</option>
+              <option [value]="readFromCurrentStepOptionValue">Currently opened step</option>
+              <option [value]="readFromCurrentGoalOptionValue">First incomplete goal</option>
               @for (option of readStartOptions$$(); track option.value) {
                 <option [value]="option.value">{{ option.label }}</option>
               }
             </select>
           </label>
-          <button type="button" class="prep__read-btn" (click)="toggleReadAllSections()">
-            {{ isReading$$() ? 'Stop reading' : 'Play all sections' }}
+          <button
+            type="button"
+            class="prep__read-btn"
+            (click)="toggleReadAllSections()"
+            [attr.aria-label]="
+              isReading$$()
+                ? 'Stop voice reading for all sections'
+                : 'Start voice reading for all sections'
+            "
+          >
+            {{ isReading$$() ? 'Stop voice reading' : 'Start voice reading' }}
           </button>
         }
-        <button type="button" class="prep__reset-btn" (click)="resetAllProgress()">
+        <button
+          type="button"
+          class="prep__reset-btn"
+          (click)="resetAllProgress()"
+          aria-label="Reset completion checkboxes for all steps"
+        >
           Reset all checkboxes
         </button>
       </div>
     </div>
+
     @if (ttsSupported$$() && isReading$$()) {
-      <p class="prep__read-status" aria-live="polite">Reading all sections…</p>
+      <p class="prep__read-status" aria-live="polite">
+        Voice reading in progress. The reader is going through all remaining selected steps.
+      </p>
     }
 
     <div class="prep__landscape-sections">
@@ -68,36 +86,65 @@
         >
           <summary class="prep__landscape-group-title">
             <span class="prep__summary-main" (click)="setCurrentStep(step.id)">
-              <span>Step {{ stepIndex + 1 }}: {{ step.title }}</span>
+              <span [attr.id]="'step-title-' + step.id">Step {{ stepIndex + 1 }}: {{ step.title }}</span>
               <label class="prep__topic-check prep__topic-check--inline" (click)="$event.stopPropagation()">
                 <input
                   type="checkbox"
                   [checked]="step.done"
+                  [attr.aria-label]="'Mark step ' + (stepIndex + 1) + ' as completed'"
                   (click)="$event.stopPropagation()"
                   (change)="setStepDone(step, $any($event.target).checked)"
                 />
-                Done
+                Completed
               </label>
             </span>
           </summary>
-          <p class="prep__knowledge-summary">{{ step.sectionTitle }}</p>
-          <p class="prep__landscape-group-summary">{{ step.explanation }}</p>
 
-          @if (step.highlights.length > 0) {
-            <ul class="prep__landscape-list">
-              @for (highlight of step.highlights; track highlight) {
-                <li class="prep__landscape-item">{{ highlight }}</li>
-              }
-            </ul>
+          <p class="prep__knowledge-summary">{{ step.sectionTitle }}</p>
+
+          <div class="prep__general" aria-label="General learning information">
+            <p class="prep__general-title">General learning information</p>
+            <p class="prep__landscape-group-summary">{{ step.explanation }}</p>
+
+            @if (step.highlights.length > 0) {
+              <p class="prep__general-subtitle">Key learning points</p>
+              <ul class="prep__landscape-list">
+                @for (highlight of step.highlights; track highlight) {
+                  <li class="prep__landscape-item">{{ highlight }}</li>
+                }
+              </ul>
+            }
+          </div>
+
+          @if (getStepInterviewQas(step); as qas) {
+            <div class="prep__qa" aria-label="Interview questions and model answers">
+              <p class="prep__qa-title">Interview questions and model answers</p>
+              <ul class="prep__qa-list">
+                @for (qa of qas; track qa.question; let qaIndex = $index) {
+                  <li class="prep__qa-item">
+                    <p class="prep__qa-question">Question {{ qaIndex + 1 }}: {{ qa.question }}</p>
+                    <p class="prep__qa-answer">Answer {{ qaIndex + 1 }}: {{ qa.answer }}</p>
+                  </li>
+                }
+              </ul>
+            </div>
           }
 
-          <p class="prep__sources" aria-label="Step sources">
+          <div class="prep__sources" aria-label="Reference sources for this step">
+            <p class="prep__sources-title">Reference sources</p>
             @for (source of getStepSources(step); track source.url; let idx = $index) {
-              <a class="prep__source-link" [href]="source.url" target="_blank" rel="noopener noreferrer"
+              <a
+                class="prep__source-link"
+                [href]="source.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="
+                  'Open reference source ' + (idx + 1) + ' for step ' + (stepIndex + 1) + ' in a new tab'
+                "
                 >[source {{ idx + 1 }}]</a
               >
             }
-          </p>
+          </div>
         </details>
       }
     </div>

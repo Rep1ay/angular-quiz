@@ -68,6 +68,11 @@ type LearningStep = {
   highlights: string[];
 };
 
+type InterviewQa = {
+  question: string;
+  answer: string;
+};
+
 type ReadStartOption = {
   value: string;
   label: string;
@@ -75,6 +80,159 @@ type ReadStartOption = {
 
 const PREP_PROGRESS_STORAGE_KEY = 'interview-prep:progress-v2';
 const KNOWLEDGE_PROGRESS_STORAGE_KEY = 'interview-prep:knowledge-v1';
+
+const SECTION_INTERVIEW_QA: Record<string, InterviewQa[]> = {
+  'knowledge:html-core': [
+    {
+      question: 'When do you use semantic landmarks instead of generic div wrappers?',
+      answer:
+        'Use semantic landmarks by default because they improve accessibility navigation, document meaning, and maintainability. Use generic wrappers only when no native element expresses intent.',
+    },
+    {
+      question: 'How do you make complex forms accessible in production?',
+      answer:
+        'Bind labels to controls, expose errors with descriptive text and proper associations, preserve keyboard flow, and test with real screen readers in addition to automated audits.',
+    },
+    {
+      question: 'How does HTML affect performance and hydration?',
+      answer:
+        'Stable, predictable markup reduces hydration mismatches and layout shift. Proper media attributes and script-loading strategy improve startup and runtime performance.',
+    },
+  ],
+  'knowledge:css-core': [
+    {
+      question: 'Grid vs Flexbox: how do you choose in interviews?',
+      answer:
+        'Use Grid for page-level or two-dimensional layouts, and Flexbox for one-dimensional alignment inside components. I explain this as a constraint-driven decision, not a preference.',
+    },
+    {
+      question: 'How do you avoid CSS scaling problems in large apps?',
+      answer:
+        'Keep clear component boundaries, consistent naming, and tokenized values via CSS variables. The goal is predictable cascade behavior and low specificity conflict.',
+    },
+    {
+      question: 'What CSS choices improve UX performance?',
+      answer:
+        'Prefer transform/opacity animations, avoid layout-thrashing patterns, and respect reduced-motion. I validate changes with real rendering/perf tooling.',
+    },
+  ],
+  'knowledge:javascript-core': [
+    {
+      question: 'Explain microtasks vs macrotasks with a practical example.',
+      answer:
+        'Promise callbacks run in the microtask queue before timers in the macrotask queue. This ordering explains many UI timing issues and race-condition bugs.',
+    },
+    {
+      question: 'How do closures cause memory issues?',
+      answer:
+        'Closures can keep references alive unintentionally. I minimize retained objects, remove listeners/subscriptions, and profile memory snapshots when leaks are suspected.',
+    },
+    {
+      question: 'How do you keep browser runtime work smooth?',
+      answer:
+        'Break heavy work into smaller chunks, defer non-critical tasks, and use profiling to confirm paint/layout costs are controlled.',
+    },
+  ],
+  'knowledge:typescript-senior': [
+    {
+      question: 'What does advanced type modeling buy the team?',
+      answer:
+        'It catches invalid states at compile time, improves refactoring confidence, and documents domain rules directly in the type system.',
+    },
+    {
+      question: 'How strict should TypeScript be in real projects?',
+      answer:
+        'Strict-by-default is ideal, but rollout can be incremental. I prioritize high-risk boundaries first and avoid blocking delivery with low-value type churn.',
+    },
+    {
+      question: 'How do you design ergonomic but safe APIs in TS?',
+      answer:
+        'Favor inference-friendly signatures, readonly contracts where possible, and explicit discriminated unions for branching behavior.',
+    },
+  ],
+  'knowledge:angular-versions': [
+    {
+      question: 'What changed most in modern Angular versions?',
+      answer:
+        'Standalone architecture, built-in control flow, signals adoption, and zoneless direction shifted Angular toward simpler, more explicit reactive patterns.',
+    },
+    {
+      question: 'How do you decide between Signals and RxJS?',
+      answer:
+        'Signals are great for local synchronous state graphs; RxJS remains strong for async streams, cancellation, and event composition. Many real apps use both intentionally.',
+    },
+    {
+      question: 'How do you discuss migration in interviews?',
+      answer:
+        'I explain incremental migration with risk control: feature-by-feature adoption, measurable perf outcomes, and rollback-safe changes.',
+    },
+  ],
+  'knowledge:frontend-security': [
+    {
+      question: 'How do you prevent XSS in Angular applications?',
+      answer:
+        'Rely on Angular default escaping, treat all external content as untrusted, avoid bypass APIs unless absolutely required, and enforce backend validation plus CSP.',
+    },
+    {
+      question: 'Why are route guards not enough for authorization?',
+      answer:
+        'Guards improve UX only; true authorization must be enforced server-side on every protected endpoint.',
+    },
+    {
+      question: 'What is special about SSR security?',
+      answer:
+        'SSR is backend attack surface. Validate host/forwarded headers, keep dependencies patched, and audit request pipeline behavior like any server component.',
+    },
+  ],
+  'phase:phase-1': [
+    {
+      question: 'How do you justify standalone-first architecture to a team?',
+      answer:
+        'It reduces module ceremony, improves clarity, and aligns with modern Angular defaults while still allowing incremental coexistence with legacy module-based code.',
+    },
+    {
+      question: 'What trade-offs do you mention for routing/forms decisions?',
+      answer:
+        'I compare maintainability, DX, and migration cost, then choose patterns that keep complexity local and testability high.',
+    },
+  ],
+  'phase:phase-2': [
+    {
+      question: 'What is your signal architecture baseline?',
+      answer:
+        'Writable signals for local state, computed for derived state, and effects for side effects only. This keeps data flow explicit and easy to reason about.',
+    },
+    {
+      question: 'How do you explain zoneless adoption?',
+      answer:
+        'I present it as a performance and predictability move, then describe required explicit update patterns and rollout strategy to avoid regressions.',
+    },
+  ],
+  'phase:phase-3': [
+    {
+      question: 'How do you pick the right RxJS mapping operator?',
+      answer:
+        'I map operator choice to user intent: switchMap for latest-only, exhaustMap for ignore-while-running, concatMap for ordering, mergeMap for parallelism.',
+    },
+    {
+      question: 'How do you prove performance improvements?',
+      answer:
+        'I measure before/after with profiling and vitals, then connect changes to concrete bottlenecks rather than relying on assumptions.',
+    },
+  ],
+  'phase:phase-4': [
+    {
+      question: 'How do you approach live coding in senior interviews?',
+      answer:
+        'I narrate trade-offs, keep increments small and testable, and optimize for clarity/correctness first before micro-optimizations.',
+    },
+    {
+      question: 'How do you answer system design questions effectively?',
+      answer:
+        'I structure by requirements, constraints, architecture, failure/security concerns, and measurable rollout plan with monitoring.',
+    },
+  ],
+};
 
 const HTML_SOURCES: SourceLink[] = [
   { url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
@@ -761,6 +919,10 @@ export class InterviewPrepPage implements OnDestroy {
     return this.getPrepItemSources(step.id);
   }
 
+  protected getStepInterviewQas(step: LearningStep): InterviewQa[] {
+    return SECTION_INTERVIEW_QA[`${step.kind}:${step.parentId}`] ?? [];
+  }
+
   protected toggleReadAllSections(): void {
     if (!this.ttsSupported$$()) return;
 
@@ -860,10 +1022,20 @@ export class InterviewPrepPage implements OnDestroy {
     const queueSource = startIndex >= 0 ? indexedSteps.slice(startIndex) : indexedSteps;
 
     return queueSource.map(({ step, index }) => {
-      const highlightsText =
-        step.highlights.length > 0 ? ` Highlights: ${step.highlights.join(' ')}` : '';
+      const generalLearningPointsText =
+        step.highlights.length > 0 ? ` Key learning points: ${step.highlights.join(' ')}` : '';
+      const interviewQas = this.getStepInterviewQas(step);
+      const interviewQuestionText =
+        interviewQas.length > 0
+          ? ` Interview questions and model answers: ${interviewQas
+              .map(
+                (qa, qaIndex) =>
+                  `Question ${qaIndex + 1}: ${qa.question} Answer ${qaIndex + 1}: ${qa.answer}`
+              )
+              .join(' ')}`
+          : '';
 
-      return `Step ${index + 1}. ${step.title}. Section: ${step.sectionTitle}. ${step.explanation}.${highlightsText}`;
+      return `Step ${index + 1}. ${step.title}. Section: ${step.sectionTitle}. General learning information: ${step.explanation}.${generalLearningPointsText}${interviewQuestionText}`;
     });
   }
 
