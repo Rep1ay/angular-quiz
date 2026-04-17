@@ -239,65 +239,198 @@ const SECTION_INTERVIEW_QA: Record<string, InterviewQa[]> = {
   ],
 };
 
-const HTML_SOURCES: SourceLink[] = [
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
-  { url: 'https://html.spec.whatwg.org/' },
-  { url: 'https://web.dev/learn/html' },
-];
-
-const CSS_SOURCES: SourceLink[] = [
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/CSS' },
-  { url: 'https://web.dev/learn/css' },
-  { url: 'https://css-tricks.com/snippets/css/complete-guide-grid/' },
-];
-
-const ANGULAR_VERSION_SOURCES: SourceLink[] = [
-  { url: 'https://angular.dev' },
-  { url: 'https://angular.dev/guide/templates/control-flow' },
-  { url: 'https://angular.dev/guide/templates/defer' },
-];
-
-const FRONTEND_SECURITY_SOURCES: SourceLink[] = [
-  { url: 'https://angular.dev/best-practices/security' },
-  { url: 'https://owasp.org/www-project-top-ten/' },
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP' },
-];
-
-const TYPESCRIPT_SOURCES: SourceLink[] = [
-  { url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html' },
-  { url: 'https://www.typescriptlang.org/docs/handbook/2/conditional-types.html' },
-  { url: 'https://www.typescriptlang.org/tsconfig#strict' },
-];
-
-const JAVASCRIPT_SOURCES: SourceLink[] = [
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop' },
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management' },
-  { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise' },
-];
-
-const PHASE_1_SOURCES: SourceLink[] = [
-  { url: 'https://angular.dev/guide/components' },
-  { url: 'https://angular.dev/guide/di' },
-  { url: 'https://angular.dev/guide/routing' },
-];
-
-const PHASE_2_SOURCES: SourceLink[] = [
-  { url: 'https://angular.dev/guide/signals' },
-  { url: 'https://angular.dev/guide/zoneless' },
-  { url: 'https://angular.dev/guide/hydration' },
-];
-
-const PHASE_3_SOURCES: SourceLink[] = [
-  { url: 'https://rxjs.dev/guide/operators' },
-  { url: 'https://angular.dev/best-practices/security' },
-  { url: 'https://angular.dev/guide/testing' },
-];
-
-const PHASE_4_SOURCES: SourceLink[] = [
-  { url: 'https://angular.dev/api/forms/ControlValueAccessor' },
-  { url: 'https://angular.dev/guide/http/interceptors' },
-  { url: 'https://web.dev/articles/rail' },
-];
+const STEP_SOURCES: Record<string, SourceLink[]> = {
+  'html-semantics': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element' },
+    { url: 'https://html.spec.whatwg.org/multipage/semantics.html' },
+  ],
+  'html-a11y': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML' },
+    { url: 'https://www.w3.org/WAI/tutorials/forms/' },
+    { url: 'https://web.dev/learn/accessibility/' },
+  ],
+  'html-performance': [
+    { url: 'https://web.dev/articles/render-blocking-resources' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer' },
+  ],
+  'css-layout': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout' },
+    { url: 'https://web.dev/learn/css/grid' },
+  ],
+  'css-architecture': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties' },
+    { url: 'https://getbem.com/introduction/' },
+    { url: 'https://web.dev/learn/css' },
+  ],
+  'css-performance': [
+    { url: 'https://web.dev/articles/animations-guide' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion' },
+    { url: 'https://web.dev/articles/optimize-cls' },
+  ],
+  'js-async': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/API/AbortController' },
+  ],
+  'js-memory': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap' },
+  ],
+  'js-runtime': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame' },
+    { url: 'https://web.dev/articles/rendering-performance' },
+  ],
+  'ts-types': [
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/conditional-types.html' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/mapped-types.html' },
+  ],
+  'ts-api-design': [
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/functions.html' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/objects.html' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/narrowing.html' },
+  ],
+  'ts-tooling': [
+    { url: 'https://www.typescriptlang.org/tsconfig#strict' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/project-references.html' },
+    { url: 'https://www.typescriptlang.org/tsconfig#incremental' },
+  ],
+  ng17: [
+    { url: 'https://angular.dev/guide/templates/control-flow' },
+    { url: 'https://angular.dev/guide/templates/defer' },
+    { url: 'https://angular.dev/guide/hydration' },
+  ],
+  ng18: [
+    { url: 'https://angular.dev/guide/signals' },
+    { url: 'https://angular.dev/guide/hydration' },
+    { url: 'https://angular.dev/update-guide' },
+  ],
+  ng19: [
+    { url: 'https://angular.dev/guide/components' },
+    { url: 'https://angular.dev/guide/routing' },
+    { url: 'https://angular.dev/guide/di' },
+  ],
+  ng20: [
+    { url: 'https://angular.dev/guide/signals' },
+    { url: 'https://angular.dev/guide/zoneless' },
+    { url: 'https://angular.dev/roadmap' },
+  ],
+  ng21: [
+    { url: 'https://angular.dev/guide/zoneless' },
+    { url: 'https://angular.dev/guide/testing' },
+    { url: 'https://angular.dev/roadmap' },
+  ],
+  'sec-xss': [
+    { url: 'https://angular.dev/best-practices/security' },
+    { url: 'https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP' },
+  ],
+  'sec-auth': [
+    { url: 'https://angular.dev/guide/routing/route-guards' },
+    { url: 'https://oauth.net/2/' },
+    { url: 'https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html' },
+  ],
+  'sec-csrf': [
+    { url: 'https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html' },
+    { url: 'https://angular.dev/best-practices/security' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite' },
+  ],
+  'sec-ssr': [
+    { url: 'https://angular.dev/best-practices/security' },
+    { url: 'https://portswigger.net/web-security/host-header' },
+    { url: 'https://owasp.org/www-project-top-ten/' },
+  ],
+  'p1-standalone': [
+    { url: 'https://angular.dev/guide/components' },
+    { url: 'https://angular.dev/guide/components/lifecycle' },
+    { url: 'https://angular.dev/guide/di' },
+  ],
+  'p1-directives-di': [
+    { url: 'https://angular.dev/guide/directives' },
+    { url: 'https://angular.dev/guide/di' },
+    { url: 'https://angular.dev/guide/templates/control-flow' },
+  ],
+  'p1-routing-forms': [
+    { url: 'https://angular.dev/guide/routing' },
+    { url: 'https://angular.dev/guide/forms' },
+    { url: 'https://angular.dev/guide/forms/reactive-forms' },
+  ],
+  'p1-typescript': [
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/utility-types.html' },
+    { url: 'https://www.typescriptlang.org/tsconfig#strict' },
+  ],
+  'p2-signals-core': [
+    { url: 'https://angular.dev/guide/signals' },
+    { url: 'https://angular.dev/guide/signals#computed-signals' },
+    { url: 'https://angular.dev/guide/signals#effects' },
+  ],
+  'p2-component-api': [
+    { url: 'https://angular.dev/guide/components/inputs' },
+    { url: 'https://angular.dev/guide/components/outputs' },
+    { url: 'https://angular.dev/guide/templates/two-way-binding' },
+  ],
+  'p2-zoneless': [
+    { url: 'https://angular.dev/guide/zoneless' },
+    { url: 'https://angular.dev/guide/signals' },
+    { url: 'https://angular.dev/guide/hydration' },
+  ],
+  'p2-hydration': [
+    { url: 'https://angular.dev/guide/hydration' },
+    { url: 'https://angular.dev/guide/ssr' },
+    { url: 'https://angular.dev/api/core/PendingTasks' },
+  ],
+  'p3-rxjs': [
+    { url: 'https://rxjs.dev/guide/operators' },
+    { url: 'https://rxjs.dev/api/operators/switchMap' },
+    { url: 'https://rxjs.dev/api/operators/exhaustMap' },
+  ],
+  'p3-performance': [
+    { url: 'https://angular.dev/guide/templates/defer' },
+    { url: 'https://angular.dev/guide/templates/control-flow' },
+    { url: 'https://web.dev/articles/rail' },
+  ],
+  'p3-state-architecture': [
+    { url: 'https://angular.dev/guide/signals' },
+    { url: 'https://rxjs.dev/guide/subject' },
+    { url: 'https://ngrx.io/guide/store' },
+  ],
+  'p3-security': [
+    { url: 'https://angular.dev/best-practices/security' },
+    { url: 'https://owasp.org/www-project-top-ten/' },
+    { url: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP' },
+  ],
+  'p3-testing': [
+    { url: 'https://angular.dev/guide/testing' },
+    { url: 'https://vitest.dev/guide/' },
+    { url: 'https://www.cypress.io/' },
+  ],
+  'p4-coding': [
+    { url: 'https://angular.dev/api/forms/ControlValueAccessor' },
+    { url: 'https://angular.dev/guide/http/interceptors' },
+    { url: 'https://angular.dev/guide/signals' },
+  ],
+  'p4-system-design': [
+    { url: 'https://web.dev/articles/rail' },
+    { url: 'https://martinfowler.com/articles/micro-frontends.html' },
+    { url: 'https://12factor.net/' },
+  ],
+  'p4-question-bank': [
+    { url: 'https://angular.dev/roadmap' },
+    { url: 'https://rxjs.dev/guide/operators' },
+    { url: 'https://www.typescriptlang.org/docs/handbook/2/' },
+  ],
+  'p4-mock': [
+    { url: 'https://www.pramp.com/#/' },
+    { url: 'https://interviewing.io/' },
+    { url: 'https://www.techinterviewhandbook.org/' },
+  ],
+};
 
 const KNOWLEDGE_BLOCKS: KnowledgeBlockTemplate[] = [
   {
@@ -902,32 +1035,8 @@ export class InterviewPrepPage implements OnDestroy {
     this.setItemDone(step.parentId, step.id, done);
   }
 
-  protected getKnowledgeSources(topicId: string): SourceLink[] {
-    if (topicId.startsWith('html-')) return HTML_SOURCES;
-    if (topicId.startsWith('css-')) return CSS_SOURCES;
-    if (topicId.startsWith('ng')) return ANGULAR_VERSION_SOURCES;
-    if (topicId.startsWith('sec-')) return FRONTEND_SECURITY_SOURCES;
-    if (topicId.startsWith('ts-')) return TYPESCRIPT_SOURCES;
-    if (topicId.startsWith('js-')) return JAVASCRIPT_SOURCES;
-
-    return ANGULAR_VERSION_SOURCES;
-  }
-
-  protected getPrepItemSources(itemId: string): SourceLink[] {
-    if (itemId.startsWith('p1-')) return PHASE_1_SOURCES;
-    if (itemId.startsWith('p2-')) return PHASE_2_SOURCES;
-    if (itemId.startsWith('p3-')) return PHASE_3_SOURCES;
-    if (itemId.startsWith('p4-')) return PHASE_4_SOURCES;
-
-    return PHASE_1_SOURCES;
-  }
-
   protected getStepSources(step: LearningStep): SourceLink[] {
-    if (step.kind === 'knowledge') {
-      return this.getKnowledgeSources(step.id);
-    }
-
-    return this.getPrepItemSources(step.id);
+    return STEP_SOURCES[step.id] ?? [];
   }
 
   protected getStepInterviewQas(step: LearningStep): InterviewQa[] {
