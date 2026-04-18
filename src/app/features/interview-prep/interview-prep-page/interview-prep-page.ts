@@ -68,6 +68,10 @@ type LearningStep = {
   highlights: string[];
 };
 
+type FilteredStep = LearningStep & {
+  originalStepNumber: number;
+};
+
 type InterviewQa = {
   question: string;
   answer: string;
@@ -136,6 +140,16 @@ const SECTION_INTERVIEW_QA: Record<string, InterviewQa[]> = {
       question: 'How do you keep browser runtime work smooth?',
       answer:
         'Break heavy work into smaller chunks, defer non-critical tasks, and use profiling to confirm paint/layout costs are controlled.',
+    },
+    {
+      question: 'What is tree shaking and why does it matter for Angular apps?',
+      answer:
+        'Tree shaking is dead code elimination at build time that removes unused exports from the bundle. It relies on ES module static analysis. In Angular, providedIn: root services are tree-shakable, and avoiding barrel re-exports and CommonJS imports helps the bundler prune more aggressively, reducing bundle size.',
+    },
+    {
+      question: 'How do you ensure a library is tree-shakable?',
+      answer:
+        'Use ES module exports, set sideEffects: false in package.json, avoid top-level side effects in module scope, prefer named exports over namespace re-exports, and verify with bundle analyzer tools that unused code is actually dropped.',
     },
   ],
   'knowledge:typescript-senior': [
@@ -284,6 +298,11 @@ const STEP_SOURCES: Record<string, SourceLink[]> = {
     { url: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API' },
     { url: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame' },
     { url: 'https://web.dev/articles/rendering-performance' },
+  ],
+  'js-tree-shaking': [
+    { url: 'https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking' },
+    { url: 'https://webpack.js.org/guides/tree-shaking/' },
+    { url: 'https://angular.dev/guide/build' },
   ],
   'ts-types': [
     { url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html' },
@@ -540,6 +559,19 @@ const KNOWLEDGE_BLOCKS: KnowledgeBlockTemplate[] = [
           'Use fetch, storage, and DOM APIs with security and performance in mind.',
           'Understand rendering pipeline basics and how code impacts paint/layout cost.',
           'Use profiling tools to validate assumptions with data.',
+        ],
+      },
+      {
+        id: 'js-tree-shaking',
+        title: 'Tree shaking and dead code elimination',
+        explanation:
+          'Tree shaking is a build-time optimization that removes unused exports from the final bundle. It relies on ES module static structure (import/export) so the bundler can determine at compile time which exports are consumed and safely drop the rest.',
+        highlights: [
+          'Only works with ES modules (static import/export); CommonJS require() defeats it.',
+          'Mark packages side-effect-free via "sideEffects" field in package.json so bundlers can prune entire unused modules.',
+          'Avoid barrel files that re-export everything — they prevent effective tree shaking because the bundler must assume all re-exports might be used.',
+          'Angular CLI leverages Webpack/esbuild tree shaking; providedIn: root services are tree-shakable because unused services are never referenced.',
+          'Use named exports and explicit imports instead of namespace imports (import *) to help bundlers identify unused bindings.',
         ],
       },
     ],
@@ -959,6 +991,49 @@ export class InterviewPrepPage implements OnDestroy {
     const pendingGoals = this.pendingGoals$$();
     return pendingGoals.length > 1 ? pendingGoals[1] : null;
   });
+
+  protected readonly searchQuery$$ = signal('');
+
+  protected readonly filteredSteps$$ = computed<FilteredStep[]>(() => {
+    const steps = this.orderedSteps$$();
+    const query = this.searchQuery$$().trim().toLowerCase();
+
+    const withNumbers: FilteredStep[] = steps.map((step, index) => ({
+      ...step,
+      originalStepNumber: index + 1,
+    }));
+
+    if (!query) return withNumbers;
+
+    return withNumbers.filter((step) => {
+      if (step.title.toLowerCase().includes(query)) return true;
+      if (step.sectionTitle.toLowerCase().includes(query)) return true;
+      if (step.explanation.toLowerCase().includes(query)) return true;
+      if (step.highlights.some((h) => h.toLowerCase().includes(query))) return true;
+
+      const qas = this.getStepInterviewQas(step);
+      return qas.some(
+        (qa) =>
+          qa.question.toLowerCase().includes(query) ||
+          qa.answer.toLowerCase().includes(query)
+      );
+    });
+  });
+
+  protected setSearchQuery(query: string): void {
+    this.searchQuery$$.set(query);
+  }
+
+  protected highlightText(text: string): string {
+    const query = this.searchQuery$$().trim();
+    if (!query) return text;
+    const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const queryEscaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(
+      new RegExp(`(${queryEscaped})`, 'gi'),
+      '<mark class="prep__highlight">$1</mark>'
+    );
+  }
 
   private readonly persistProgress = effect(() => {
     const doneIds = this.allPhaseItems$$()
